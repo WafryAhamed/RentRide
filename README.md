@@ -1,1 +1,1 @@
-# RentRide
+# RentRide app
