@@ -27,6 +27,9 @@ import '../features/travel_guide/place_detail_screen.dart';
 import '../features/support/help_support_screen.dart';
 import '../features/support/emergency_screen.dart';
 import '../features/home/main_shell.dart';
+import '../features/home/location_picker_screen.dart';
+import '../features/home/saved_locations_screen.dart';
+import '../features/profile/change_password_screen.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/splash',
@@ -66,5 +69,8 @@ final appRouter = GoRouter(
     GoRoute(path: '/place-detail', builder: (_, state) => PlaceDetailScreen(guideId: state.extra as String? ?? '')),
     GoRoute(path: '/help-support', builder: (_, __) => const HelpSupportScreen()),
     GoRoute(path: '/emergency', builder: (_, __) => const EmergencyScreen()),
+    GoRoute(path: '/location-picker', builder: (_, __) => const LocationPickerScreen()),
+    GoRoute(path: '/saved-locations', builder: (_, __) => const SavedLocationsScreen()),
+    GoRoute(path: '/change-password', builder: (_, __) => const ChangePasswordScreen()),
   ],
 );

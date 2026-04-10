@@ -11,6 +11,8 @@ import '../features/ratings/driver_ratings_screen.dart';
 import '../features/profile/driver_profile_screen.dart';
 import '../features/notifications/driver_notifications_screen.dart';
 import '../features/support/driver_support_screen.dart';
+import '../features/auth/document_upload_screen.dart';
+import '../features/auth/driver_otp_screen.dart';
 
 final driverRouter = GoRouter(
   initialLocation: '/splash',
@@ -27,5 +29,7 @@ final driverRouter = GoRouter(
     GoRoute(path: '/profile', builder: (_, __) => const DriverProfileScreen()),
     GoRoute(path: '/notifications', builder: (_, __) => const DriverNotificationsScreen()),
     GoRoute(path: '/support', builder: (_, __) => const DriverSupportScreen()),
+    GoRoute(path: '/document-upload', builder: (_, __) => const DocumentUploadScreen()),
+    GoRoute(path: '/otp', builder: (_, state) => DriverOtpScreen(phone: state.extra as String? ?? '')),
   ],
 );

@@ -1,0 +1,12 @@
+﻿E:\RentRide\apps\driver_app\lib\features\active_ride\active_ride_screen.dart
+E:\RentRide\apps\driver_app\lib\features\auth\driver_login_screen.dart
+E:\RentRide\apps\driver_app\lib\features\auth\driver_register_screen.dart
+E:\RentRide\apps\driver_app\lib\features\auth\driver_splash_screen.dart
+E:\RentRide\apps\driver_app\lib\features\dashboard\dashboard_screen.dart
+E:\RentRide\apps\driver_app\lib\features\earnings\earnings_screen.dart
+E:\RentRide\apps\driver_app\lib\features\history\driver_history_screen.dart
+E:\RentRide\apps\driver_app\lib\features\notifications\driver_notifications_screen.dart
+E:\RentRide\apps\driver_app\lib\features\profile\driver_profile_screen.dart
+E:\RentRide\apps\driver_app\lib\features\ratings\driver_ratings_screen.dart
+E:\RentRide\apps\driver_app\lib\features\ride_request\ride_request_screen.dart
+E:\RentRide\apps\driver_app\lib\features\support\driver_support_screen.dart
