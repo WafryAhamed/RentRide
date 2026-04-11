@@ -77,3 +77,10 @@ func (r *VehicleRepository) FindByID(id uint) (*models.Vehicle, error) {
 	}
 	return &vehicle, nil
 }
+
+// GetAll returns all vehicles across the platform (Admin only)
+func (r *VehicleRepository) GetAll() ([]models.Vehicle, error) {
+	var vehicles []models.Vehicle
+	err := r.db.Order("created_at desc").Find(&vehicles).Error
+	return vehicles, err
+}

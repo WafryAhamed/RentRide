@@ -19,7 +19,7 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
   }
 
   Future<void> _load() async {
-    final guide = await MockGuideService.getGuideById(widget.guideId);
+    final guide = await GuideApiService().getGuideById(widget.guideId);
     if (mounted) setState(() => _guide = guide);
   }
 

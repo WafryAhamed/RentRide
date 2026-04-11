@@ -21,5 +21,12 @@ func RegisterRoutes(router *gin.Engine) {
 			rides.GET("/:id", rideCtrl.GetRide)                 // Get specific ride
 			rides.GET("/user/:user_id", rideCtrl.GetUserRides)  // Get history
 		}
+
+		admin := v1.Group("/admin")
+		admin.Use(middleware.AuthRequired())
+		admin.Use(middleware.RoleRequired("ADMIN"))
+		{
+			admin.GET("/rides", rideCtrl.AdminGetRides)
+		}
 	}
 }

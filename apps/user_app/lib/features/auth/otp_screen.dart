@@ -20,7 +20,7 @@ class _OtpScreenState extends State<OtpScreen> {
   Future<void> _verify() async {
     if (_otp.length != 4) return;
     setState(() => _isLoading = true);
-    final success = await MockAuthService.verifyOtp(_otp);
+    final success = await AuthApiService().verifyOtp(_otp);
     if (mounted) {
       setState(() => _isLoading = false);
       if (success) {

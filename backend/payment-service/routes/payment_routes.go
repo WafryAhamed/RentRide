@@ -21,6 +21,14 @@ func RegisterRoutes(router *gin.Engine) {
 			payments.GET("/ride/:ride_id", payCtrl.GetPaymentByRide)  // Get payment by ride
 			payments.GET("/history", payCtrl.GetPaymentHistory)       // User payment history
 			payments.GET("/earnings", payCtrl.GetDriverEarnings)      // Driver earnings
+			payments.POST("/:id/qr-simulate", payCtrl.SimulateQRWebhook) // Fix QR payment simulation
+		}
+
+		admin := v1.Group("/admin")
+		admin.Use(middleware.AuthRequired())
+		admin.Use(middleware.RoleRequired("ADMIN"))
+		{
+			admin.GET("/payments", payCtrl.AdminGetPayments)
 		}
 	}
 }

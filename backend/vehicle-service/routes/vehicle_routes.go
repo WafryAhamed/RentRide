@@ -23,5 +23,12 @@ func RegisterRoutes(router *gin.Engine) {
 			vehicles.GET("/driver/:driver_id", vehCtrl.GetDriverVehicles)
 			vehicles.GET("/driver/:driver_id/active", vehCtrl.GetActiveVehicle)
 		}
+
+		admin := v1.Group("/admin")
+		admin.Use(middleware.AuthRequired())
+		admin.Use(middleware.RoleRequired("ADMIN"))
+		{
+			admin.GET("/vehicles", vehCtrl.AdminGetVehicles)
+		}
 	}
 }

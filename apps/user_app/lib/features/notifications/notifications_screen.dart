@@ -18,7 +18,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Future<void> _load() async {
-    final data = await MockNotificationService.getNotifications();
+    final data = await NotificationApiService().getNotifications();
     if (mounted) setState(() => _notifications = data);
   }
 
@@ -49,7 +49,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         title: const Text('Notifications'),
         actions: [
           TextButton(
-            onPressed: () async { await MockNotificationService.markAllAsRead(); _load(); },
+            onPressed: () async { await NotificationApiService().markAllAsRead(); _load(); },
             child: Text('Mark all read', style: AppTextStyles.labelSmall.copyWith(color: AppColors.primary)),
           ),
         ],
@@ -100,7 +100,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             ? Container(width: 8, height: 8, decoration: const BoxDecoration(color: AppColors.primary, shape: BoxShape.circle))
                             : null,
                         onTap: () async {
-                          await MockNotificationService.markAsRead(n.id);
+                          await NotificationApiService().markAsRead(n.id);
                           _load();
                         },
                       ),

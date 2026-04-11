@@ -12,7 +12,7 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
   VehicleType _selectedType = VehicleType.car;
   final double _distance = 5.2;
 
-  double get _estimatedFare => MockRideService.calculateFare(_distance, _selectedType);
+  double get _estimatedFare => BookingApiService().calculateFare(_distance, _selectedType);
   int get _estimatedTime {
     switch (_selectedType) {
       case VehicleType.bike: return 12;
@@ -86,7 +86,7 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
                 children: [
                   VehicleCard(
                     type: VehicleType.bike,
-                    estimatedFare: MockRideService.calculateFare(_distance, VehicleType.bike),
+                    estimatedFare: BookingApiService().calculateFare(_distance, VehicleType.bike),
                     estimatedMinutes: 12,
                     isSelected: _selectedType == VehicleType.bike,
                     onTap: () => setState(() => _selectedType = VehicleType.bike),
@@ -94,7 +94,7 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
                   const SizedBox(height: 10),
                   VehicleCard(
                     type: VehicleType.car,
-                    estimatedFare: MockRideService.calculateFare(_distance, VehicleType.car),
+                    estimatedFare: BookingApiService().calculateFare(_distance, VehicleType.car),
                     estimatedMinutes: 18,
                     isSelected: _selectedType == VehicleType.car,
                     onTap: () => setState(() => _selectedType = VehicleType.car),
@@ -102,7 +102,7 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
                   const SizedBox(height: 10),
                   VehicleCard(
                     type: VehicleType.van,
-                    estimatedFare: MockRideService.calculateFare(_distance, VehicleType.van),
+                    estimatedFare: BookingApiService().calculateFare(_distance, VehicleType.van),
                     estimatedMinutes: 22,
                     isSelected: _selectedType == VehicleType.van,
                     onTap: () => setState(() => _selectedType = VehicleType.van),

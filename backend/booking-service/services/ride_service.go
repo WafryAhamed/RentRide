@@ -92,6 +92,10 @@ func (s *RideService) GetUserHistory(userID uint) ([]models.Ride, error) {
 	return s.repo.FindByUserID(userID)
 }
 
+func (s *RideService) GetAllRides() ([]models.Ride, error) {
+	return s.repo.GetAll()
+}
+
 func (s *RideService) GetDriverHistory(driverID uint) ([]models.Ride, error) {
 	return s.repo.FindByDriverID(driverID)
 }

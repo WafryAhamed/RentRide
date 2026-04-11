@@ -52,4 +52,8 @@ func RegisterRoutes(router *gin.Engine, urls *config.ServiceURLs) {
 	// ── Notification Service Routes ──────────────────────────────
 	notifProxy := proxy.ServiceProxy(urls.Notification)
 	v1.Any("/notifications/*path", notifProxy)
+
+	// ── Travel Guide Service Routes ──────────────────────────────
+	guideProxy := proxy.ServiceProxy(urls.TravelGuide)
+	v1.Any("/guides/*path", guideProxy)
 }

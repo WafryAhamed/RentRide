@@ -16,7 +16,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Future<void> _send() async {
     if (_emailController.text.isEmpty) return;
     setState(() => _isLoading = true);
-    await MockAuthService.resetPassword(_emailController.text);
+    await AuthApiService().resetPassword(_emailController.text);
     if (mounted) setState(() { _isLoading = false; _sent = true; });
   }
 

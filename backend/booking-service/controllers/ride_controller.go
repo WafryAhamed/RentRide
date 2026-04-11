@@ -109,3 +109,13 @@ func (ctrl *RideController) GetUserRides(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"success": true, "data": rides})
 }
+
+func (ctrl *RideController) AdminGetRides(c *gin.Context) {
+	rides, err := ctrl.service.GetAllRides()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch all rides"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": rides})
+}

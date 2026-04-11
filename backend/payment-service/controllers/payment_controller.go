@@ -146,3 +146,28 @@ func (ctrl *PaymentController) GetDriverEarnings(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"success": true, "data": gin.H{"total_earnings": earnings}})
 }
+
+func (ctrl *PaymentController) AdminGetPayments(c *gin.Context) {
+	payments, err := ctrl.service.GetAllPayments()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"success": false, "error": "Failed to fetch payments"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": payments})
+}
+
+func (ctrl *PaymentController) SimulateQRWebhook(c *gin.Context) {
+	paymentID, err := strconv.ParseUint(c.Param("id"), 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "error": "Invalid payment ID"})
+		return
+	}
+
+	payment, err := ctrl.service.SimulateQRWebhook(uint(paymentID))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"success": false, "error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"success": true, "message": "QR Payment successful via simulation", "data": payment})
+}

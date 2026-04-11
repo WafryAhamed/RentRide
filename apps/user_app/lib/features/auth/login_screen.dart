@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     try {
-      await MockAuthService.login(
+      await AuthApiService().login(
         _emailController.text,
         _passwordController.text,
       );

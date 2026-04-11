@@ -14,7 +14,7 @@ class DriverNotificationsScreen extends StatelessWidget {
         title: const Text('Notifications'),
       ),
       body: FutureBuilder<List<NotificationModel>>(
-        future: MockNotificationService.getNotifications(),
+        future: NotificationApiService().getNotifications(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return const Center(child: CircularProgressIndicator(color: AppColors.accent));
           return ListView.separated(

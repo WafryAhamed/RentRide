@@ -13,6 +13,7 @@ type ServiceURLs struct {
 	Vehicle      string
 	Payment      string
 	Notification string
+	TravelGuide  string
 }
 
 // LoadServiceURLs reads service URLs from environment variables
@@ -25,6 +26,7 @@ func LoadServiceURLs() *ServiceURLs {
 		Vehicle:      getEnvOrDefault("VEHICLE_SERVICE_URL", "http://localhost:8084"),
 		Payment:      getEnvOrDefault("PAYMENT_SERVICE_URL", "http://localhost:8085"),
 		Notification: getEnvOrDefault("NOTIFICATION_SERVICE_URL", "http://localhost:8086"),
+		TravelGuide:  getEnvOrDefault("TRAVEL_GUIDE_SERVICE_URL", "http://localhost:8087"),
 	}
 }
 

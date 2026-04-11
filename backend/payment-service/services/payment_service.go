@@ -112,3 +112,25 @@ func (s *PaymentService) GetDriverPaymentHistory(driverID uint) ([]models.Paymen
 func (s *PaymentService) GetDriverEarnings(driverID uint) (float64, error) {
 	return s.repo.GetDriverEarnings(driverID)
 }
+
+func (s *PaymentService) GetAllPayments() ([]models.Payment, error) {
+	return s.repo.GetAll()
+}
+
+func (s *PaymentService) SimulateQRWebhook(paymentID uint) (*models.Payment, error) {
+	payment, err := s.repo.FindByID(paymentID)
+	if err != nil {
+		return nil, errors.New("payment not found")
+	}
+
+	now := time.Now()
+	payment.Status = models.PaymentConfirmed
+	payment.ConfirmedAt = &now
+	payment.PaymentMethod = models.MethodQR
+
+	if err := s.repo.Update(payment); err != nil {
+		return nil, errors.New("failed to simulate QR payment")
+	}
+
+	return payment, nil
+}

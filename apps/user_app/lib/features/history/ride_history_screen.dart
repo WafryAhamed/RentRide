@@ -18,7 +18,7 @@ class _RideHistoryScreenState extends State<RideHistoryScreen> {
   }
 
   Future<void> _loadRides() async {
-    final rides = await MockRideService.getRideHistory();
+    final rides = await BookingApiService().getRides();
     if (mounted) setState(() => _rides = rides);
   }
 

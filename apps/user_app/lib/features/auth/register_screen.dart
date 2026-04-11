@@ -28,7 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     setState(() => _isLoading = true);
     try {
-      await MockAuthService.register(
+      await AuthApiService().register(
         name: _nameController.text,
         email: _emailController.text,
         phone: _phoneController.text,

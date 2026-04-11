@@ -20,8 +20,8 @@ class _GuideHomeScreenState extends State<GuideHomeScreen> {
   }
 
   Future<void> _loadData() async {
-    final all = await MockGuideService.getAllGuides();
-    final nearby = await MockGuideService.getNearbyPlaces(maxDistanceKm: 5);
+    final all = await GuideApiService().getAllGuides();
+    final nearby = await GuideApiService().getNearbyPlaces(maxDistanceKm: 5);
     if (mounted) setState(() { _guides = all; _nearby = nearby; });
   }
 

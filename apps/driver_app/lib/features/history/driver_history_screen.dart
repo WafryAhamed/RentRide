@@ -14,7 +14,7 @@ class DriverHistoryScreen extends StatelessWidget {
         title: const Text('Completed Rides'),
       ),
       body: FutureBuilder<List<RideModel>>(
-        future: MockRideService.getRideHistory(),
+        future: BookingApiService().getRides(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return const Center(child: LoadingShimmer(count: 4, height: 120));
           return ListView.builder(

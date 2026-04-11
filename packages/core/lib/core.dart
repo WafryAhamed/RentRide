@@ -17,8 +17,20 @@ export 'src/models/notification_model.dart';
 export 'src/models/travel_guide_model.dart';
 export 'src/models/rating_model.dart';
 export 'src/models/driver_model.dart';
+export 'src/models/payment_model.dart';
 
-// Services
+// API Services (Real)
+export 'src/services/api_config.dart';
+export 'src/services/api_client.dart';
+export 'src/services/auth_api_service.dart';
+export 'src/services/booking_api_service.dart';
+export 'src/services/vehicle_api_service.dart';
+export 'src/services/location_api_service.dart';
+export 'src/services/payment_api_service.dart';
+export 'src/services/notification_api_service.dart';
+export 'src/services/guide_api_service.dart';
+
+// Services (Mock - kept for testing)
 export 'src/services/mock_auth_service.dart';
 export 'src/services/mock_ride_service.dart';
 export 'src/services/mock_vehicle_service.dart';

@@ -48,3 +48,10 @@ func (r *RideRepository) FindByDriverID(driverID uint) ([]models.Ride, error) {
 	err := r.db.Where("driver_id = ?", driverID).Order("created_at desc").Find(&rides).Error
 	return rides, err
 }
+
+// GetAll retrieves all rides (For Admin)
+func (r *RideRepository) GetAll() ([]models.Ride, error) {
+	var rides []models.Ride
+	err := r.db.Order("created_at desc").Find(&rides).Error
+	return rides, err
+}

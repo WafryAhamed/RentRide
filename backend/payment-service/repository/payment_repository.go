@@ -68,3 +68,10 @@ func (r *PaymentRepository) GetDriverEarnings(driverID uint) (float64, error) {
 		Scan(&total).Error
 	return total, err
 }
+
+// GetAll returns all payments for admin
+func (r *PaymentRepository) GetAll() ([]models.Payment, error) {
+	var payments []models.Payment
+	err := r.db.Order("created_at desc").Find(&payments).Error
+	return payments, err
+}
