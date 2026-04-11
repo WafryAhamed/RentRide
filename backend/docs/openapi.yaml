@@ -1,0 +1,750 @@
+openapi: 3.0.3
+info:
+  title: RentRide API
+  description: |
+    RentRide is a modern vehicle rental platform built with microservices architecture.
+    All endpoints are accessible through the API Gateway on port 8000.
+  version: 1.0.0
+  contact:
+    name: RentRide Team
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: API Gateway (Development)
+  - url: http://localhost:8081/api/v1
+    description: Auth Service (Direct)
+  - url: http://localhost:8080/api/v1
+    description: User Service (Direct)
+  - url: http://localhost:8082/api/v1
+    description: Booking Service (Direct)
+  - url: http://localhost:8083/api/v1
+    description: Location Service (Direct)
+  - url: http://localhost:8084/api/v1
+    description: Vehicle Service (Direct)
+  - url: http://localhost:8085/api/v1
+    description: Payment Service (Direct)
+  - url: http://localhost:8086/api/v1
+    description: Notification Service (Direct)
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    APIResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        data:
+          type: object
+        error:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    RegisterRequest:
+      type: object
+      required: [full_name, email, phone, password]
+      properties:
+        full_name:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          format: email
+          example: "john@example.com"
+        phone:
+          type: string
+          example: "+94771234567"
+        password:
+          type: string
+          minLength: 6
+          example: "password123"
+        role:
+          type: string
+          enum: [rider, driver, admin]
+          default: rider
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        token_type:
+          type: string
+          example: "Bearer"
+        expires_in:
+          type: integer
+          example: 900
+
+    RefreshRequest:
+      type: object
+      required: [refresh_token]
+      properties:
+        refresh_token:
+          type: string
+
+    CreateRideRequest:
+      type: object
+      required: [pickup_lat, pickup_lng, pickup_loc, dropoff_lat, dropoff_lng, dropoff_loc]
+      properties:
+        pickup_lat:
+          type: number
+          format: double
+          example: 6.9271
+        pickup_lng:
+          type: number
+          format: double
+          example: 79.8612
+        pickup_loc:
+          type: string
+          example: "Colombo Fort"
+        dropoff_lat:
+          type: number
+          format: double
+          example: 6.9147
+        dropoff_lng:
+          type: number
+          format: double
+          example: 79.9725
+        dropoff_loc:
+          type: string
+          example: "Battaramulla"
+
+    Ride:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        driver_id:
+          type: integer
+        vehicle_id:
+          type: integer
+        pickup_lat:
+          type: number
+        pickup_lng:
+          type: number
+        pickup_loc:
+          type: string
+        dropoff_lat:
+          type: number
+        dropoff_lng:
+          type: number
+        dropoff_loc:
+          type: string
+        status:
+          type: string
+          enum: [PENDING, ACCEPTED, ARRIVING, IN_PROGRESS, COMPLETED, CANCELLED]
+        fare:
+          type: number
+        distance_km:
+          type: number
+        duration_min:
+          type: integer
+        started_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+        driver_id:
+          type: integer
+        make:
+          type: string
+        model:
+          type: string
+        year:
+          type: integer
+        license_plate:
+          type: string
+        category:
+          type: string
+          enum: [HATCHBACK, SEDAN, SUV, VAN]
+        color:
+          type: string
+        is_active:
+          type: boolean
+
+    RegisterVehicleRequest:
+      type: object
+      required: [make, model, year, license_plate, category]
+      properties:
+        make:
+          type: string
+          example: "Toyota"
+        model:
+          type: string
+          example: "Corolla"
+        year:
+          type: integer
+          example: 2022
+        license_plate:
+          type: string
+          example: "ABC-1234"
+        category:
+          type: string
+          enum: [HATCHBACK, SEDAN, SUV, VAN]
+        color:
+          type: string
+          example: "White"
+
+    DriverLocation:
+      type: object
+      properties:
+        driver_id:
+          type: integer
+        latitude:
+          type: number
+        longitude:
+          type: number
+        heading:
+          type: number
+        is_online:
+          type: boolean
+        updated_at:
+          type: string
+          format: date-time
+
+    Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+        ride_id:
+          type: integer
+        user_id:
+          type: integer
+        driver_id:
+          type: integer
+        amount:
+          type: number
+        payment_method:
+          type: string
+          enum: [CASH]
+        status:
+          type: string
+          enum: [PENDING, COLLECTED, CONFIRMED, CANCELLED]
+        collected_at:
+          type: string
+          format: date-time
+        confirmed_at:
+          type: string
+          format: date-time
+
+    CreatePaymentRequest:
+      type: object
+      required: [ride_id, user_id, driver_id, amount]
+      properties:
+        ride_id:
+          type: integer
+        user_id:
+          type: integer
+        driver_id:
+          type: integer
+        amount:
+          type: number
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        title:
+          type: string
+        body:
+          type: string
+        type:
+          type: string
+          enum: [RIDE_REQUEST, RIDE_ACCEPTED, RIDE_ARRIVING, RIDE_STARTED, RIDE_COMPLETED, RIDE_CANCELLED, PAYMENT, SYSTEM]
+        is_read:
+          type: boolean
+        metadata:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    SendNotificationRequest:
+      type: object
+      required: [user_id, title, body, type]
+      properties:
+        user_id:
+          type: integer
+        title:
+          type: string
+        body:
+          type: string
+        type:
+          type: string
+          enum: [RIDE_REQUEST, RIDE_ACCEPTED, RIDE_ARRIVING, RIDE_STARTED, RIDE_COMPLETED, RIDE_CANCELLED, PAYMENT, SYSTEM]
+        metadata:
+          type: string
+
+paths:
+  # ── Auth Service ──────────────────────────────────────────────
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/TokenResponse'
+        '409':
+          description: User already exists
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/TokenResponse'
+        '401':
+          description: Invalid credentials
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Refresh access token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+      responses:
+        '200':
+          description: Token refreshed successfully
+        '401':
+          description: Invalid refresh token
+
+  # ── Booking Service ───────────────────────────────────────────
+  /rides:
+    post:
+      tags: [Rides]
+      summary: Request a new ride
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRideRequest'
+      responses:
+        '201':
+          description: Ride created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/APIResponse'
+                  - properties:
+                      data:
+                        $ref: '#/components/schemas/Ride'
+
+  /rides/{id}:
+    get:
+      tags: [Rides]
+      summary: Get ride by ID
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ride details
+
+  /rides/{id}/status:
+    patch:
+      tags: [Rides]
+      summary: Update ride status
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [ACCEPTED, ARRIVING, IN_PROGRESS, COMPLETED, CANCELLED]
+      responses:
+        '200':
+          description: Status updated
+
+  /rides/user/{user_id}:
+    get:
+      tags: [Rides]
+      summary: Get user ride history
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ride history
+
+  # ── Vehicle Service ───────────────────────────────────────────
+  /vehicles:
+    post:
+      tags: [Vehicles]
+      summary: Register a new vehicle
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterVehicleRequest'
+      responses:
+        '201':
+          description: Vehicle registered
+
+  /vehicles/{id}:
+    patch:
+      tags: [Vehicles]
+      summary: Update vehicle
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Vehicle updated
+
+  /vehicles/driver/{driver_id}:
+    get:
+      tags: [Vehicles]
+      summary: Get driver's vehicles
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: driver_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Driver vehicles
+
+  # ── Location Service ──────────────────────────────────────────
+  /locations/driver:
+    put:
+      tags: [Location]
+      summary: Update driver location
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [latitude, longitude]
+              properties:
+                latitude:
+                  type: number
+                longitude:
+                  type: number
+                heading:
+                  type: number
+      responses:
+        '200':
+          description: Location updated
+
+  /locations/nearby:
+    get:
+      tags: [Location]
+      summary: Search nearby drivers
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: latitude
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: longitude
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: radius_km
+          in: query
+          schema:
+            type: number
+            default: 5.0
+      responses:
+        '200':
+          description: Nearby drivers list
+
+  # ── WebSocket ─────────────────────────────────────────────────
+  /ws/track/{ride_id}:
+    get:
+      tags: [WebSocket]
+      summary: Track ride in real-time (WebSocket)
+      description: Upgrades to WebSocket connection. Rider receives LOCATION_UPDATE messages.
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: ride_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '101':
+          description: WebSocket upgrade
+
+  /ws/driver:
+    get:
+      tags: [WebSocket]
+      summary: Driver location push (WebSocket)
+      description: Upgrades to WebSocket. Driver sends location messages.
+      security:
+        - BearerAuth: []
+      responses:
+        '101':
+          description: WebSocket upgrade
+
+  # ── Payment Service ───────────────────────────────────────────
+  /payments:
+    post:
+      tags: [Payments]
+      summary: Create payment record
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePaymentRequest'
+      responses:
+        '201':
+          description: Payment created
+
+  /payments/{id}/collect:
+    patch:
+      tags: [Payments]
+      summary: Driver marks cash as collected
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Cash collected
+
+  /payments/{id}/confirm:
+    patch:
+      tags: [Payments]
+      summary: User confirms payment
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Payment confirmed
+
+  /payments/ride/{ride_id}:
+    get:
+      tags: [Payments]
+      summary: Get payment for a ride
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: ride_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Payment details
+
+  /payments/history:
+    get:
+      tags: [Payments]
+      summary: Get user payment history
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Payment history
+
+  /payments/earnings:
+    get:
+      tags: [Payments]
+      summary: Get driver total earnings
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Driver earnings
+
+  # ── Notification Service ──────────────────────────────────────
+  /notifications:
+    get:
+      tags: [Notifications]
+      summary: Get user notifications
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Notifications list
+
+  /notifications/unread-count:
+    get:
+      tags: [Notifications]
+      summary: Get unread notification count
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Unread count
+
+  /notifications/{id}/read:
+    patch:
+      tags: [Notifications]
+      summary: Mark notification as read
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Marked as read
+
+  /notifications/read-all:
+    patch:
+      tags: [Notifications]
+      summary: Mark all notifications as read
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: All marked as read
+
+  /notifications/internal/send:
+    post:
+      tags: [Notifications]
+      summary: Send notification (internal)
+      description: Called by other services to create notifications.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendNotificationRequest'
+      responses:
+        '201':
+          description: Notification sent
+
+  # ── Health Checks ─────────────────────────────────────────────
+  /health:
+    get:
+      tags: [Health]
+      summary: Gateway health check
+      responses:
+        '200':
+          description: Service healthy

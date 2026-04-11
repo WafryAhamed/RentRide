@@ -8,6 +8,7 @@ import (
 	"rentride/location-service/config"
 	"rentride/location-service/models"
 	"rentride/location-service/routes"
+	ws "rentride/location-service/websocket"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -29,6 +30,10 @@ func main() {
 	// Auto migrate schema
 	config.AutoMigrate(&models.DriverLocation{})
 
+	// Initialize WebSocket Hub
+	hub := ws.NewHub()
+	go hub.Run()
+
 	// Initialize router
 	router := gin.Default()
 
@@ -45,18 +50,22 @@ func main() {
 	})
 
 	router.GET("/api/v1/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"status": "Location Service Healthy"})
+		c.JSON(http.StatusOK, gin.H{
+			"status":         "Location Service Healthy",
+			"online_drivers": hub.GetOnlineDriverCount(),
+		})
 	})
 
-	routes.RegisterRoutes(router)
+	routes.RegisterRoutes(router, hub)
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8083" 
+		port = "8083"
 	}
 
 	log.Printf("🚀 RentRide Location Service starting on port %s", port)
-	
+	log.Printf("📡 WebSocket endpoints: /api/v1/ws/track/:ride_id, /api/v1/ws/driver")
+
 	if err := router.Run(":" + port); err != nil {
 		log.Fatalf("❌ Failed to start server: %v", err)
 	}
