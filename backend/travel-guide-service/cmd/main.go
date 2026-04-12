@@ -22,7 +22,7 @@ func main() {
 		log.Println("No .env file found, relying on environment variables")
 	}
 
-	logger.InitLogger()
+
 
 	db := config.ConnectDB()
 
@@ -32,8 +32,8 @@ func main() {
 
 	router := gin.Default()
 	router.Use(middleware.CORSMiddleware())
-	router.Use(middleware.RequestLogger())
-	router.Use(middleware.RecoveryMiddleware())
+	router.Use(middleware.RequestLogger("travel-guide-service"))
+	router.Use(middleware.Recovery("travel-guide-service"))
 
 	routes.RegisterRoutes(router, ctrl)
 
@@ -42,8 +42,8 @@ func main() {
 		port = "8087"
 	}
 
-	logger.Info("Starting Travel Guide Service on port " + port)
+	logger.Log.Info("Starting Travel Guide Service on port " + port)
 	if err := router.Run(":" + port); err != nil {
-		logger.Fatal("Failed to start server: " + err.Error())
+		logger.Log.Fatal("Failed to start server: " + err.Error())
 	}
 }

@@ -1,0 +1,14 @@
+go 1.26.2
+
+use (
+	./api-gateway
+	./auth-service
+	./booking-service
+	./core
+	./location-service
+	./notification-service
+	./payment-service
+	./travel-guide-service
+	./user-service
+	./vehicle-service
+)

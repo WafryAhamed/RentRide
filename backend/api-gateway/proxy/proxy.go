@@ -19,6 +19,15 @@ func ServiceProxy(targetURL string) gin.HandlerFunc {
 
 	proxy := httputil.NewSingleHostReverseProxy(target)
 
+	// Strip backend CORS headers to prevent duplicates since the Gateway handles CORS
+	proxy.ModifyResponse = func(r *http.Response) error {
+		r.Header.Del("Access-Control-Allow-Origin")
+		r.Header.Del("Access-Control-Allow-Credentials")
+		r.Header.Del("Access-Control-Allow-Methods")
+		r.Header.Del("Access-Control-Allow-Headers")
+		return nil
+	}
+
 	// Custom error handler
 	proxy.ErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
 		log.Printf("⚠️  Proxy error for %s: %v", r.URL.Path, err)

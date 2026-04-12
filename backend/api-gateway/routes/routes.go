@@ -56,4 +56,14 @@ func RegisterRoutes(router *gin.Engine, urls *config.ServiceURLs) {
 	// ── Travel Guide Service Routes ──────────────────────────────
 	guideProxy := proxy.ServiceProxy(urls.TravelGuide)
 	v1.Any("/guides/*path", guideProxy)
+
+	// ── Admin Routes ─────────────────────────────────────────────
+	v1.Any("/admin/users/*path", userProxy)
+	v1.Any("/admin/users", userProxy)
+	v1.Any("/admin/vehicles/*path", vehicleProxy)
+	v1.Any("/admin/vehicles", vehicleProxy)
+	v1.Any("/admin/payments/*path", paymentProxy)
+	v1.Any("/admin/payments", paymentProxy)
+	v1.Any("/admin/rides/*path", bookingProxy)
+	v1.Any("/admin/rides", bookingProxy)
 }

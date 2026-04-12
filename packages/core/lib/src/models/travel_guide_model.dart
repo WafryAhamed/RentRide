@@ -35,6 +35,26 @@ class TravelGuideModel extends Equatable {
     this.distanceKm,
   });
 
+  factory TravelGuideModel.fromJson(Map<String, dynamic> json) {
+    return TravelGuideModel(
+      id: json['id']?.toString() ?? '',
+      title: json['name'] ?? json['title'] ?? '',
+      description: json['description'] ?? '',
+      category: GuideCategory.values.firstWhere(
+        (e) => e.name == json['category'],
+        orElse: () => GuideCategory.touristPlaces,
+      ),
+      images: (json['images'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [],
+      latitude: json['latitude'] != null ? double.parse(json['latitude'].toString()) : 0.0,
+      longitude: json['longitude'] != null ? double.parse(json['longitude'].toString()) : 0.0,
+      address: json['city'] ?? json['address'] ?? '',
+      rating: json['rating'] != null ? double.parse(json['rating'].toString()) : 0.0,
+      reviewCount: json['review_count'] ?? 0,
+      openingHours: json['opening_hours'],
+    );
+  }
+
+
   String get categoryLabel {
     switch (category) {
       case GuideCategory.hotels:

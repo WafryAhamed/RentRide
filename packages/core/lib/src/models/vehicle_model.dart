@@ -33,6 +33,23 @@ class VehicleModel extends Equatable {
     this.isAvailable = true,
   });
 
+  factory VehicleModel.fromJson(Map<String, dynamic> json) {
+    return VehicleModel(
+      id: json['id']?.toString() ?? '',
+      driverId: json['driver_id']?.toString() ?? '',
+      type: VehicleType.car,
+      make: json['make'] ?? '',
+      model: json['model'] ?? '',
+      year: json['year'] as int? ?? 2020,
+      plateNumber: json['license_plate'] ?? '',
+      color: json['color'] ?? '',
+      pricePerKm: 0.0,
+      baseFare: 0.0,
+      imageUrl: json['image_url'],
+    );
+  }
+
+
   String get displayName => '$make $model';
   String get typeLabel {
     switch (type) {

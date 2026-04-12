@@ -5,12 +5,14 @@ class LocationModel extends Equatable {
   final double longitude;
   final String address;
   final String? name;
+  final double? heading;
 
   const LocationModel({
     required this.latitude,
     required this.longitude,
     required this.address,
     this.name,
+    this.heading,
   });
 
   String get displayName => name ?? address;

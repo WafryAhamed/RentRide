@@ -124,3 +124,12 @@ func (ctrl *VehicleController) GetActiveVehicle(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"success": true, "data": vehicle})
 }
+
+func (ctrl *VehicleController) AdminGetVehicles(c *gin.Context) {
+	vehicles, err := ctrl.service.GetAllVehicles()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch vehicles"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"success": true, "data": vehicles})
+}

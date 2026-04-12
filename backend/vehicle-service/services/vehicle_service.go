@@ -82,3 +82,8 @@ func (s *VehicleService) UpdateVehicle(driverID uint, vehicleID uint, req models
 
 	return vehicle, nil
 }
+
+func (s *VehicleService) GetAllVehicles() ([]models.Vehicle, error) {
+	return s.repo.GetAll()
+}
+

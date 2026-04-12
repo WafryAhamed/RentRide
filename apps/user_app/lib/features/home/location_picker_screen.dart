@@ -31,13 +31,12 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
       body: Stack(
         children: [
           MapView(
-            center: _center,
+            latitude: _center.latitude,
+            longitude: _center.longitude,
             zoom: 15,
             mapController: _mapController,
-            onPositionChanged: (position, hasGesture) {
-              if (position.center != null) {
-                setState(() => _center = position.center!);
-              }
+            onTap: (pos, latlng) {
+              setState(() => _center = latlng);
             },
           ),
           
@@ -97,7 +96,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  CustomButton(
+                  RentRideButton(
                     text: 'Confirm Location',
                     onPressed: () {
                       // Return location back to previous screen

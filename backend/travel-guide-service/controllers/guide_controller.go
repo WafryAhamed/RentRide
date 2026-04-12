@@ -31,7 +31,7 @@ func (c *GuideController) GetPlaces(ctx *gin.Context) {
 		response.Error(ctx, http.StatusInternalServerError, "Failed to retrieve places")
 		return
 	}
-	response.Success(ctx, places)
+	response.Success(ctx, http.StatusOK, "data retrieved", places)
 }
 
 func (c *GuideController) GetPlaceByID(ctx *gin.Context) {
@@ -47,7 +47,7 @@ func (c *GuideController) GetPlaceByID(ctx *gin.Context) {
 		response.Error(ctx, http.StatusNotFound, "Place not found")
 		return
 	}
-	response.Success(ctx, place)
+	response.Success(ctx, http.StatusOK, "data retrieved", place)
 }
 
 func (c *GuideController) GetCategories(ctx *gin.Context) {
@@ -56,7 +56,7 @@ func (c *GuideController) GetCategories(ctx *gin.Context) {
 		response.Error(ctx, http.StatusInternalServerError, "Failed to retrieve categories")
 		return
 	}
-	response.Success(ctx, cats)
+	response.Success(ctx, http.StatusOK, "data retrieved", cats)
 }
 
 func (c *GuideController) GetFeatured(ctx *gin.Context) {
@@ -65,5 +65,5 @@ func (c *GuideController) GetFeatured(ctx *gin.Context) {
 		response.Error(ctx, http.StatusInternalServerError, "Failed to retrieve featured places")
 		return
 	}
-	response.Success(ctx, featured)
+	response.Success(ctx, http.StatusOK, "data retrieved", featured)
 }

@@ -28,12 +28,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     setState(() => _isLoading = true);
     try {
-      await AuthApiService().register(
-        name: _nameController.text,
-        email: _emailController.text,
-        phone: _phoneController.text,
-        password: _passwordController.text,
-      );
+      await AuthApiService().register({
+        'name': _nameController.text,
+        'email': _emailController.text,
+        'phone': _phoneController.text,
+        'password': _passwordController.text,
+      });
       if (mounted) context.push('/otp', extra: _phoneController.text);
     } finally {
       if (mounted) setState(() => _isLoading = false);

@@ -21,6 +21,7 @@ type PaymentMethod string
 
 const (
 	MethodCash PaymentMethod = "CASH"
+	MethodQR   PaymentMethod = "QR"
 )
 
 // Payment represents a payment record for a ride

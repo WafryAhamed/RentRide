@@ -1,8 +1,8 @@
 package routes
 
 import (
+	"rentride/core/middleware"
 	"rentride/vehicle-service/controllers"
-	"rentride/vehicle-service/middleware"
 
 	"github.com/gin-gonic/gin"
 )

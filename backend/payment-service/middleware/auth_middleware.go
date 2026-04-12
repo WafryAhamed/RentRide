@@ -44,3 +44,32 @@ func AuthRequired() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+// RoleRequired restricts access to specific roles
+func RoleRequired(roles ...string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		role, exists := c.Get("role")
+		if !exists {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Role not found in token"})
+			c.Abort()
+			return
+		}
+
+		roleStr, ok := role.(string)
+		if !ok {
+			c.JSON(http.StatusForbidden, gin.H{"error": "Invalid role format"})
+			c.Abort()
+			return
+		}
+
+		for _, allowed := range roles {
+			if roleStr == allowed {
+				c.Next()
+				return
+			}
+		}
+
+		c.JSON(http.StatusForbidden, gin.H{"error": "Insufficient permissions"})
+		c.Abort()
+	}
+}

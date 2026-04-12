@@ -23,6 +23,23 @@ class NotificationModel extends Equatable {
     this.imageUrl,
   });
 
+  factory NotificationModel.fromJson(Map<String, dynamic> json) {
+    return NotificationModel(
+      id: json['id']?.toString() ?? '',
+      title: json['title'] ?? '',
+      message: json['message'] ?? json['body'] ?? '',
+      type: NotificationType.values.firstWhere(
+        (e) => e.name == json['type'],
+        orElse: () => NotificationType.system,
+      ),
+      isRead: json['is_read'] ?? json['isRead'] ?? false,
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : DateTime.now(),
+      actionRoute: json['action_route'] ?? json['actionRoute'],
+      imageUrl: json['image_url'] ?? json['imageUrl'],
+    );
+  }
+
+
   NotificationModel markRead() => NotificationModel(
     id: id,
     title: title,

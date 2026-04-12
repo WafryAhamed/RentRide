@@ -80,8 +80,9 @@ class _DocUploadItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color statusColor = AppColors.accent;
-    if (isVerified) statusColor = AppColors.success;
-    else if (isPending) statusColor = AppColors.warning;
+    if (isVerified) {
+      statusColor = AppColors.success;
+    } else if (isPending) statusColor = AppColors.warning;
     else if (status != 'Required') statusColor = AppColors.textMuted;
 
     return Container(

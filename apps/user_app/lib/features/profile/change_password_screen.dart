@@ -69,7 +69,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   label: 'Current Password',
                   hint: 'Enter your current password',
                   prefixIcon: Icons.lock_outline,
-                  isPassword: true,
+                  obscureText: true,
                   validator: Validators.password,
                 ),
                 const SizedBox(height: 16),
@@ -79,7 +79,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   label: 'New Password',
                   hint: 'Enter your new password',
                   prefixIcon: Icons.lock_outline,
-                  isPassword: true,
+                  obscureText: true,
                   validator: Validators.password,
                 ),
                 const SizedBox(height: 16),
@@ -89,7 +89,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   label: 'Confirm New Password',
                   hint: 'Re-enter your new password',
                   prefixIcon: Icons.lock_outline,
-                  isPassword: true,
+                  obscureText: true,
                   validator: (val) {
                     if (val != _newPasswordController.text) {
                       return 'Passwords do not match';
@@ -99,7 +99,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
                 
                 const SizedBox(height: 48),
-                CustomButton(
+                RentRideButton(
                   text: 'Update Password',
                   onPressed: _handleChangePassword,
                 ),

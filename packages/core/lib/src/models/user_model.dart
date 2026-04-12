@@ -27,6 +27,18 @@ class UserModel extends Equatable {
     this.savedLocations = const [],
   });
 
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['id']?.toString() ?? '',
+      name: json['name'] ?? '',
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
+      createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at'].toString()) ?? DateTime.now() : DateTime.now(),
+    );
+  }
+
+
+
   @override
   List<Object?> get props => [id, email];
 

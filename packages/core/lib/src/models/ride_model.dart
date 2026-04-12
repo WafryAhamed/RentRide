@@ -50,6 +50,18 @@ class RideModel extends Equatable {
     this.completedAt,
   });
 
+  factory RideModel.fromJson(Map<String, dynamic> json) {
+    return RideModel(
+      id: json['id']?.toString() ?? '',
+      userId: json['user_id']?.toString() ?? '',
+      driverId: json['driver_id']?.toString(),
+      pickup: const LocationModel(latitude: 0, longitude: 0, address: 'Pickup'),
+      dropoff: const LocationModel(latitude: 0, longitude: 0, address: 'Dropoff'),
+      createdAt: DateTime.now(),
+    );
+  }
+
+
   String get statusLabel {
     switch (status) {
       case RideStatus.searching:

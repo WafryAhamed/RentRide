@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"rentride/core/middleware"
 	"rentride/user-service/controllers"
 
 	"github.com/gin-gonic/gin"
