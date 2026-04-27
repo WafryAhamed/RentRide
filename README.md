@@ -1,322 +1,178 @@
-# <div style="display:flex;align-items:center;gap:12px">
-# <img src="./docs/assets/silcon.svg" alt="RentRide" width="48" height="48" /> RentRide
-</div>
+<p align="center">
+  <img src="./docs/assets/silcon.svg" alt="RentRide Logo" width="70"/>
+</p>
 
-RentRide is a modern, professionally maintained ride-hailing and vehicle rental platform — a microservices-based system built with Go, PostgreSQL, Flutter and React. This README focuses on clear setup, local development, and demo workflows for contributors and evaluators.
+<h1 align="center">🚖 RentRide</h1>
 
-## ✨ Highlights
+<p align="center">
+  Microservices-based ride-hailing and vehicle rental platform.
+</p>
 
-- 🧩 **Microservices architecture** with independently deployable services
-- 🚪 **API Gateway** with routing, rate limiting, and JWT protection
-- 🔐 **Authentication** with access and refresh tokens
-- 👥 **Role-based access** for rider, driver, and admin workflows
-- 📍 **Real-time tracking** powered by WebSockets
-- 💸 **Cash payment flow** with driver collect / user confirm support
-- 🔔 **Notifications** for ride lifecycle events
-- 🗃️ **PostgreSQL + GORM** for structured persistence
-- 🧰 **Shared core packages** for auth, logging, middleware, and API helpers
-- 📘 **OpenAPI documentation** for service contracts
-- ⚙️ **Frontend demo mode** support for running apps without the backend
+<p align="center">
+  <a href="https://github.com/WafryAhamed/RentRide"><img src="https://img.shields.io/github/stars/WafryAhamed/RentRide?style=for-the-badge" alt="Stars"/></a>
+  <a href="https://github.com/WafryAhamed/RentRide/network/members"><img src="https://img.shields.io/github/forks/WafryAhamed/RentRide?style=for-the-badge" alt="Forks"/></a>
+  <a href="https://github.com/WafryAhamed/RentRide/issues"><img src="https://img.shields.io/github/issues/WafryAhamed/RentRide?style=for-the-badge" alt="Issues"/></a>
+</p>
 
-## 📦 Applications
+<p align="center">
+  <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/go.png" alt="Go" width="28"/>
+  <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png" alt="PostgreSQL" width="28"/>
+  <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/react.png" alt="React" width="28"/>
+  <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/vite.png" alt="Vite" width="28"/>
+  <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/flutter.png" alt="Flutter" width="28"/>
+  <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/dart.png" alt="Dart" width="28"/>
+</p>
 
-### 🌐 Admin Panel
-- React + Vite admin dashboard
-- Manage users, vehicles, rides, and payments
+---
 
-### 📱 User App
-- Flutter app for riders
-- Booking, tracking, notifications, profile, and payments
+## 🚀 Overview
 
-### 🚘 Driver App
-- Flutter app for drivers
-- Ride handling, status updates, navigation, and earnings views
+This repository is a monorepo containing:
 
-## 📸 Demo / Screenshots
+- Go backend microservices under `backend/`
+- React + Vite admin panel under `apps/admin_panel`
+- Flutter user and driver applications under `apps/user_app` and `apps/driver_app`
+- Shared Flutter package under `packages/core`
+- Backend API specification at `backend/docs/openapi.yaml`
 
-Below are a few example screenshots showing the Admin panel and mobile/web app UI. To add your own screenshots, place images in `docs/assets/screenshots/` and name them (examples used below): `admin_dashboard.png`, `admin_login.png`, `user_app_web.png`.
-
-<table>
-  <tr>
-    <td><img src="./docs/assets/screenshots/admin_dashboard.png" alt="Admin Dashboard" width="360"/></td>
-    <td><img src="./docs/assets/screenshots/admin_login.png" alt="Admin Login" width="360"/></td>
-    <td><img src="./docs/assets/screenshots/user_app_web.png" alt="User App (web)" width="360"/></td>
-  </tr>
-  <tr>
-    <td align="center">Admin Dashboard</td>
-    <td align="center">Admin Login</td>
-    <td align="center">User App (web)</td>
-  </tr>
-</table>
-
-How to add screenshots locally:
-
-```bash
-# create screenshots folder
-mkdir -p docs/assets/screenshots
-
-# on Windows (PowerShell)
-Copy-Item C:\path\to\admin_dashboard.png docs\assets\screenshots\admin_dashboard.png
-
-# on macOS / Linux
-cp ~/Pictures/admin_dashboard.png docs/assets/screenshots/admin_dashboard.png
-```
-
-Tips:
-- Use PNG or JPEG images. Recommended width: 1200px for full-width screenshots; use ~360px for the gallery thumbnails above.
-- For professional README visuals, crop to the app viewport and avoid showing personal data.
-
-
-## 🏗️ Architecture
+## 📁 Repository Structure (verified)
 
 ```text
-┌──────────────────────────────┐
-│         API Gateway          │
-│            :8000             │
-│   Routing • Rate Limit • JWT │
-└──────────────┬───────────────┘
-               │
-   ┌───────────┼───────────┬───────────┬───────────┬───────────┐
-   │           │           │           │           │           │
-┌──▼───┐   ┌───▼────┐  ┌───▼─────┐ ┌───▼─────┐ ┌───▼─────┐ ┌───▼────────┐
-│Auth  │   │User   │  │Booking │ │Location │ │Vehicle │ │Payment/Notif│
-│:8081 │   │:8080  │  │:8082   │ │:8083    │ │:8084   │ │:8085 / :8086│
-└──────┘   └────────┘  └────────┘ └─────────┘ └────────┘ └────────────┘
+apps/
+  admin_panel/
+  user_app/
+  driver_app/
+backend/
+  api-gateway/
+  auth-service/
+  user-service/
+  booking-service/
+  location-service/
+  vehicle-service/
+  payment-service/
+  notification-service/
+  travel-guide-service/
+  core/
+  docs/openapi.yaml
+packages/
+  core/
+scripts/
+  setup_db.go
 ```
 
-## 🛠️ Tech Stack
+## 🧩 Backend Services (default ports from source)
+
+Default ports below are taken from each service `cmd/main.go` fallback when `PORT` is unset.
+
+| Service | Default Port |
+|---|---:|
+| API Gateway | 8000 |
+| User Service | 8080 |
+| Auth Service | 8081 |
+| Booking Service | 8082 |
+| Location Service | 8083 |
+| Vehicle Service | 8084 |
+| Payment Service | 8085 |
+| Notification Service | 8086 |
+| Travel Guide Service | 8087 |
+
+## 🛠️ Tech Stack (from project files)
 
 ### Backend
-- 🟢 Go 1.26
-- 🏎️ Gin Web Framework
-- 🗃️ GORM + PostgreSQL
-- 🔑 JWT authentication
-- 🌐 `gorilla/websocket` for live location updates
-- 📝 `logrus` for structured logging
+- Go workspace version: `1.26.2` (`backend/go.work`)
+- Gin (`github.com/gin-gonic/gin`)
+- GORM + PostgreSQL drivers (used by services in `backend/*/config/database.go`)
+- JWT auth middleware (gateway + auth service)
+- WebSocket support in location service (`backend/location-service/websocket`)
 
-### Frontend
-- 🎨 React + Vite admin panel
-- 📱 Flutter apps for user and driver
-- 🧱 Shared Dart package for common client logic
+### Admin Panel (`apps/admin_panel/package.json`)
+- React `^19.2.4`
+- Vite `^8.0.4`
+- Axios `^1.15.0`
+- React Router DOM `^7.14.0`
+- jwt-decode `^4.0.0`
 
-## 🖨️ Technologies Icons
+### Flutter Apps (`apps/user_app/pubspec.yaml`, `apps/driver_app/pubspec.yaml`)
+- Dart SDK constraint: `^3.10.0`
+- Flutter
+- Riverpod `^2.6.1`
+- go_router `^14.8.1`
+- flutter_map `^7.0.2`
 
-> All product names, logos, and brands are the property of their respective owners. Icons are provided for convenience and identification only — no endorsement is implied.
+## ▶️ Local Development
 
-Below are the primary technologies used across this repository. Click any icon to fetch the image directly from the icon set used in this project.
+### 1) Backend
 
-| Category | Key technologies |
-|---|---|
-| Communication | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/http.png" alt="HTTP" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/websocket.png" alt="WebSocket" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/grpc.png" alt="gRPC" width="24"/> |
-| Version control | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/git.png" alt="Git" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/github.png" alt="GitHub" width="24"/> |
-| Tools & Editors | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/visual_studio_code.png" alt="VS Code" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/docker.png" alt="Docker" width="24"/> |
-| Web / Frontend | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/react.png" alt="React" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/vite.png" alt="Vite" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/typescript.png" alt="TypeScript" width="24"/> |
-| Mobile / Flutter | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/flutter.png" alt="Flutter" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/dart.png" alt="Dart" width="24"/> |
-| Backend / Languages | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/go.png" alt="Go" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/node_js.png" alt="Node.js" width="24"/> |
-| Database & Cache | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png" alt="PostgreSQL" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/redis.png" alt="Redis" width="24"/> |
-| DevOps & CI | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/kubernetes.png" alt="Kubernetes" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/terraform.png" alt="Terraform" width="24"/> |
-| Cloud | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/aws.png" alt="AWS" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/microsoft_azure.png" alt="Azure" width="24"/> |
-| Analytics / AI | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/tensorflow.png" alt="TensorFlow" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/langchain_icon.png" alt="LangChain" width="24"/> |
-
-### 🍼 How to use these icons
-
-Use an inline image in Markdown for a compact, professional look. Example:
-
-```md
-<img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/go.png" alt="Go" width="24"/> Go
-```
-
-For a full list of available icons and raw URLs, see the icon source repository:
-
-- https://github.com/marwin1991/profile-technology-icons
-
-If you want me to include every icon from the provided list into this README as a full grid, I can add a larger, paginated `docs/TECH_ICONS.md` file instead to keep this README concise.
-
-## 🔌 Service Ports
-
-| Service | Port | Purpose |
-|---|---:|---|
-| API Gateway | 8000 | Unified backend entry point |
-| User Service | 8080 | Profiles and user data |
-| Auth Service | 8081 | Login, register, refresh token |
-| Booking Service | 8082 | Ride creation and lifecycle |
-| Location Service | 8083 | GPS tracking and WebSocket stream |
-| Vehicle Service | 8084 | Vehicle management |
-| Payment Service | 8085 | Cash payment handling |
-| Notification Service | 8086 | In-app notifications |
-
-## 🚀 Quick Start
-
-### ✅ Prerequisites
-- Go 1.26+
-- PostgreSQL 15+
-- Node.js 18+ for the admin panel
-- Flutter stable for the mobile/web apps
-
-### 1) Configure environment
-
-Copy the `.env.example` file for each backend service you want to run.
+Each backend service has an `.env.example` file.
 
 ```bash
-cd backend/auth-service
+cd backend/<service-name>
 copy .env.example .env
-```
-
-### 2) Create databases
-
-```sql
-CREATE DATABASE rentride_users;
-CREATE DATABASE rentride_bookings;
-CREATE DATABASE rentride_locations;
-CREATE DATABASE rentride_vehicles;
-CREATE DATABASE rentride_payments;
-CREATE DATABASE rentride_notifications;
-CREATE DATABASE rentride_guides;
-```
-
-### 3) Run a backend service
-
-```bash
-cd backend/auth-service
 go mod tidy
 go run ./cmd
 ```
 
-### 4) Run the API Gateway
+Start `api-gateway` after starting required downstream services.
+
+### 2) Admin Panel
 
 ```bash
-cd backend/api-gateway
-go run ./cmd
+cd apps/admin_panel
+npm install
+npm run dev
 ```
 
-## 🧪 Frontend Demo Mode
+### 3) Flutter Apps
 
-For frontend-only demos, the shared Flutter core package can run in mock mode so the apps work without the backend.
-
-- 🧑‍💻 **Admin Panel**: `http://localhost:3000/`
-- 📱 **User App**: `http://localhost:8088/`
-- 🚘 **Driver App**: `http://localhost:8089/`
-
-## 🔌 API Overview
-
-### 🔐 Auth Service
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/v1/auth/register` | Register a new user |
-| POST | `/api/v1/auth/login` | Login and receive tokens |
-| POST | `/api/v1/auth/refresh` | Refresh access token |
-
-### 🚗 Booking Service
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/v1/rides` | Request a ride |
-| PATCH | `/api/v1/rides/:id/status` | Update ride status |
-| GET | `/api/v1/rides/:id` | Get ride details |
-| GET | `/api/v1/rides/user/:user_id` | Get ride history |
-
-### 🚘 Vehicle Service
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/v1/vehicles` | Register a vehicle |
-| PATCH | `/api/v1/vehicles/:id` | Update vehicle details |
-| GET | `/api/v1/vehicles/driver/:driver_id` | Get driver vehicles |
-| GET | `/api/v1/vehicles/driver/:driver_id/active` | Get active vehicle |
-
-### 📍 Location Service
-| Method | Endpoint | Description |
-|---|---|---|
-| PUT | `/api/v1/locations/driver` | Update driver location |
-| GET | `/api/v1/locations/nearby` | Find nearby drivers |
-| WS | `/api/v1/ws/track/:ride_id` | Rider tracking stream |
-| WS | `/api/v1/ws/driver` | Driver location stream |
-
-### 💳 Payment Service
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/v1/payments` | Create payment record |
-| PATCH | `/api/v1/payments/:id/collect` | Driver collects cash |
-| PATCH | `/api/v1/payments/:id/confirm` | User confirms payment |
-| GET | `/api/v1/payments/ride/:ride_id` | Get payment by ride |
-| GET | `/api/v1/payments/history` | Payment history |
-| GET | `/api/v1/payments/earnings` | Driver earnings |
-
-### 🔔 Notification Service
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/v1/notifications` | Get notifications |
-| GET | `/api/v1/notifications/unread-count` | Unread count |
-| PATCH | `/api/v1/notifications/:id/read` | Mark as read |
-| PATCH | `/api/v1/notifications/read-all` | Mark all as read |
-| POST | `/api/v1/notifications/internal/send` | Internal send endpoint |
-
-## 📡 WebSockets
-
-### Rider tracking
-Connect to `ws://localhost:8083/api/v1/ws/track/:ride_id` with a JWT auth header.
-
-Example payload:
-
-```json
-{
-  "type": "LOCATION_UPDATE",
-  "ride_id": 42,
-  "driver_id": 7,
-  "latitude": 6.9271,
-  "longitude": 79.8612,
-  "heading": 180.0
-}
+```bash
+cd apps/user_app
+flutter pub get
+flutter run
 ```
 
-### Driver push
-Connect to `ws://localhost:8083/api/v1/ws/driver` with a JWT auth header.
-
-Example payload:
-
-```json
-{
-  "ride_id": 42,
-  "latitude": 6.9271,
-  "longitude": 79.8612,
-  "heading": 180.0
-}
+```bash
+cd apps/driver_app
+flutter pub get
+flutter run
 ```
+
+## 🔐 Admin Login (verified behavior)
+
+In local/dev mode, `apps/admin_panel/src/contexts/AuthContext.jsx` supports mock admin login when:
+
+- `localStorage.MOCK_ADMIN === "true"`, **or**
+- `VITE_MOCK_AUTH === "true"`
+
+This allows entering the admin UI without depending on full backend availability.
+
+## 📘 API Documentation
+
+- OpenAPI file: `backend/docs/openapi.yaml`
+
+## 📸 Demo / Screenshots
+
+The repo currently includes only this logo asset in `docs/assets/`:
+
+- `docs/assets/silcon.svg`
+
+If you want screenshot gallery images in README, add files under `docs/assets/screenshots/` and reference them here.
 
 ## 🧪 Testing
 
-Run tests for a specific service:
+Run tests per backend service:
 
 ```bash
-cd backend/auth-service
+cd backend/<service-name>
 go test ./... -v
 ```
-
-Run tests across all backend services:
-
-```bash
-for service in auth-service booking-service location-service vehicle-service payment-service notification-service user-service api-gateway; do
-  echo Testing $service...
-  cd backend/$service
-  go test ./... -v
-  cd ../..
-done
-```
-
-## 📘 Documentation
-
-- OpenAPI spec: `backend/docs/openapi.yaml`
-- Shared Flutter package: `packages/core`
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
-3. Commit your changes
+3. Commit changes
 4. Open a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License. See `LICENSE` for details.
 
 ## 📞 Support
 
-If you find an issue, please open a GitHub issue in the repository.
+If you find an issue, open a GitHub issue in this repository.
