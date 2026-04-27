@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaUsers, FaCarSide, FaCreditCard, FaLocationArrow } from 'react-icons/fa6';
 import api from '../api/axios';
+import { useAuth } from '../contexts/AuthContext';
 
 const StatCard = ({ title, value, icon: Icon, colorClass }) => (
   <div className="bg-dark-card border border-dark-border rounded-2xl p-6 transition-all hover:border-gray-600 hover:-translate-y-1">
@@ -19,30 +20,37 @@ const StatCard = ({ title, value, icon: Icon, colorClass }) => (
 const DashboardPage = () => {
   const [stats, setStats] = useState({ users: 0, vehicles: 0, payments: 0 });
   const [loading, setLoading] = useState(true);
+  const auth = useAuth();
 
   useEffect(() => {
     // In a real scenario we'd hit /stats, but here we can hit the endpoints and count
     const fetchData = async () => {
       try {
+        // Only fetch admin endpoints when user is authenticated
+        if (!auth?.user) {
+          setStats({ users: 0, vehicles: 0, payments: 0 });
+          return;
+        }
+
         const [uRes, vRes, pRes] = await Promise.all([
           api.get('/admin/users').catch(() => ({ data: { data: [] } })),
           api.get('/admin/vehicles').catch(() => ({ data: { data: [] } })),
           api.get('/admin/payments').catch(() => ({ data: { data: [] } }))
         ]);
-        
+
         setStats({
           users: uRes.data?.data?.length || 0,
           vehicles: vRes.data?.data?.length || 0,
           payments: pRes.data?.data?.length || 0
         });
       } catch (e) {
-        console.error("Failed to load dashboard data");
+        console.error("Failed to load dashboard data", e);
       } finally {
         setLoading(false);
       }
     };
     fetchData();
-  }, []);
+  }, [auth?.user]);
 
   return (
     <div className="space-y-6 animate-fade-in pb-10">

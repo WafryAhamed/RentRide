@@ -32,6 +32,41 @@ RentRide is a modern, professionally maintained ride-hailing and vehicle rental 
 - Flutter app for drivers
 - Ride handling, status updates, navigation, and earnings views
 
+## 📸 Demo / Screenshots
+
+Below are a few example screenshots showing the Admin panel and mobile/web app UI. To add your own screenshots, place images in `docs/assets/screenshots/` and name them (examples used below): `admin_dashboard.png`, `admin_login.png`, `user_app_web.png`.
+
+<table>
+  <tr>
+    <td><img src="./docs/assets/screenshots/admin_dashboard.png" alt="Admin Dashboard" width="360"/></td>
+    <td><img src="./docs/assets/screenshots/admin_login.png" alt="Admin Login" width="360"/></td>
+    <td><img src="./docs/assets/screenshots/user_app_web.png" alt="User App (web)" width="360"/></td>
+  </tr>
+  <tr>
+    <td align="center">Admin Dashboard</td>
+    <td align="center">Admin Login</td>
+    <td align="center">User App (web)</td>
+  </tr>
+</table>
+
+How to add screenshots locally:
+
+```bash
+# create screenshots folder
+mkdir -p docs/assets/screenshots
+
+# on Windows (PowerShell)
+Copy-Item C:\path\to\admin_dashboard.png docs\assets\screenshots\admin_dashboard.png
+
+# on macOS / Linux
+cp ~/Pictures/admin_dashboard.png docs/assets/screenshots/admin_dashboard.png
+```
+
+Tips:
+- Use PNG or JPEG images. Recommended width: 1200px for full-width screenshots; use ~360px for the gallery thumbnails above.
+- For professional README visuals, crop to the app viewport and avoid showing personal data.
+
+
 ## 🏗️ Architecture
 
 ```text
@@ -63,6 +98,39 @@ RentRide is a modern, professionally maintained ride-hailing and vehicle rental 
 - 🎨 React + Vite admin panel
 - 📱 Flutter apps for user and driver
 - 🧱 Shared Dart package for common client logic
+
+## 🖨️ Technologies Icons
+
+> All product names, logos, and brands are the property of their respective owners. Icons are provided for convenience and identification only — no endorsement is implied.
+
+Below are the primary technologies used across this repository. Click any icon to fetch the image directly from the icon set used in this project.
+
+| Category | Key technologies |
+|---|---|
+| Communication | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/http.png" alt="HTTP" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/websocket.png" alt="WebSocket" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/grpc.png" alt="gRPC" width="24"/> |
+| Version control | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/git.png" alt="Git" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/github.png" alt="GitHub" width="24"/> |
+| Tools & Editors | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/visual_studio_code.png" alt="VS Code" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/docker.png" alt="Docker" width="24"/> |
+| Web / Frontend | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/react.png" alt="React" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/vite.png" alt="Vite" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/typescript.png" alt="TypeScript" width="24"/> |
+| Mobile / Flutter | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/flutter.png" alt="Flutter" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/dart.png" alt="Dart" width="24"/> |
+| Backend / Languages | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/go.png" alt="Go" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/node_js.png" alt="Node.js" width="24"/> |
+| Database & Cache | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/postgresql.png" alt="PostgreSQL" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/redis.png" alt="Redis" width="24"/> |
+| DevOps & CI | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/kubernetes.png" alt="Kubernetes" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/terraform.png" alt="Terraform" width="24"/> |
+| Cloud | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/aws.png" alt="AWS" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/microsoft_azure.png" alt="Azure" width="24"/> |
+| Analytics / AI | <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/tensorflow.png" alt="TensorFlow" width="24"/> <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/langchain_icon.png" alt="LangChain" width="24"/> |
+
+### 🍼 How to use these icons
+
+Use an inline image in Markdown for a compact, professional look. Example:
+
+```md
+<img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/go.png" alt="Go" width="24"/> Go
+```
+
+For a full list of available icons and raw URLs, see the icon source repository:
+
+- https://github.com/marwin1991/profile-technology-icons
+
+If you want me to include every icon from the provided list into this README as a full grid, I can add a larger, paginated `docs/TECH_ICONS.md` file instead to keep this README concise.
 
 ## 🔌 Service Ports
 
