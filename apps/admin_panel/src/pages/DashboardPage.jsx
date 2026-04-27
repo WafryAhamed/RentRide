@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Car, CreditCard, Navigation } from 'lucide-react';
+import { FaUsers, FaCarSide, FaCreditCard, FaLocationArrow } from 'react-icons/fa6';
 import api from '../api/axios';
 
 const StatCard = ({ title, value, icon: Icon, colorClass }) => (
@@ -53,16 +53,16 @@ const DashboardPage = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <StatCard title="Total Users" value={stats.users} icon={Users} colorClass="bg-blue-500 text-blue-500" />
-          <StatCard title="Platform Vehicles" value={stats.vehicles} icon={Car} colorClass="bg-green-500 text-green-500" />
-          <StatCard title="Payments" value={stats.payments} icon={CreditCard} colorClass="bg-orange-500 text-orange-500" />
+          <StatCard title="Total Users" value={stats.users} icon={FaUsers} colorClass="bg-blue-500 text-blue-500" />
+          <StatCard title="Platform Vehicles" value={stats.vehicles} icon={FaCarSide} colorClass="bg-green-500 text-green-500" />
+          <StatCard title="Payments" value={stats.payments} icon={FaCreditCard} colorClass="bg-orange-500 text-orange-500" />
         </div>
       )}
 
       {/* Placeholder for future charts or tables */}
       <h3 className="text-xl font-bold mt-10 mb-4 tracking-tight">Recent Activity</h3>
       <div className="bg-dark-card border border-dark-border rounded-2xl h-64 flex flex-col items-center justify-center text-gray-500">
-         <Navigation size={48} className="opacity-20 mb-4" />
+        <FaLocationArrow size={48} className="opacity-20 mb-4" />
          <p>Activity logs will populate here when the backend is connected to the real system streams.</p>
       </div>
 

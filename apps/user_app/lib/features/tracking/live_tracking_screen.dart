@@ -16,7 +16,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
   late Timer _timer;
   int _step = 0;
   String _status = 'Driver is on the way';
-  String _statusEmoji = '🚗';
+  IconData _statusIcon = Icons.directions_car;
 
   // Simulated driver positions
   final List<LatLng> _driverPath = const [
@@ -43,7 +43,7 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
         timer.cancel();
         setState(() {
           _status = 'Driver has arrived!';
-          _statusEmoji = '✅';
+          _statusIcon = Icons.check_circle;
         });
       }
     });
@@ -57,7 +57,10 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final pickup = const LatLng(AppConstants.defaultLat, AppConstants.defaultLng);
+    final pickup = const LatLng(
+      AppConstants.defaultLat,
+      AppConstants.defaultLng,
+    );
     final dropoff = const LatLng(6.9344, 79.8428);
 
     return Scaffold(
@@ -93,7 +96,11 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               padding: const EdgeInsets.all(10),
               borderRadius: 12,
               onTap: () => context.go('/home'),
-              child: const Icon(Icons.arrow_back_ios_new, size: 18, color: AppColors.textPrimary),
+              child: const Icon(
+                Icons.arrow_back_ios_new,
+                size: 18,
+                color: AppColors.textPrimary,
+              ),
             ),
           ),
 
@@ -108,9 +115,14 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(_statusEmoji, style: const TextStyle(fontSize: 18)),
+                  Icon(_statusIcon, size: 18, color: AppColors.textPrimary),
                   const SizedBox(width: 8),
-                  Text(_status, style: AppTextStyles.labelMedium.copyWith(color: AppColors.textPrimary)),
+                  Text(
+                    _status,
+                    style: AppTextStyles.labelMedium.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -118,7 +130,9 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
 
           // Bottom driver info
           Positioned(
-            left: 0, right: 0, bottom: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
             child: Container(
               decoration: const BoxDecoration(
                 color: AppColors.darkSurface,
@@ -131,22 +145,38 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(width: 40, height: 4, decoration: BoxDecoration(color: AppColors.darkBorder, borderRadius: BorderRadius.circular(2))),
+                      Container(
+                        width: 40,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: AppColors.darkBorder,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                      ),
                       const SizedBox(height: 16),
                       Row(
                         children: [
                           CircleAvatar(
                             radius: 24,
                             backgroundColor: AppColors.primary.withOpacity(0.2),
-                            child: const Icon(Icons.person, color: AppColors.primary),
+                            child: const Icon(
+                              Icons.person,
+                              color: AppColors.primary,
+                            ),
                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Kamal Silva', style: AppTextStyles.heading4),
-                                Text('Toyota Prius • CAB-1234', style: AppTextStyles.bodySmall),
+                                Text(
+                                  'Kamal Silva',
+                                  style: AppTextStyles.heading4,
+                                ),
+                                Text(
+                                  'Toyota Prius • CAB-1234',
+                                  style: AppTextStyles.bodySmall,
+                                ),
                               ],
                             ),
                           ),
@@ -163,11 +193,23 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
                       // ETA and trip info
                       Row(
                         children: [
-                          _MiniInfo(label: 'ETA', value: '${7 - _step} min', icon: Icons.access_time),
+                          _MiniInfo(
+                            label: 'ETA',
+                            value: '${7 - _step} min',
+                            icon: Icons.access_time,
+                          ),
                           const SizedBox(width: 12),
-                          _MiniInfo(label: 'Distance', value: '5.2 km', icon: Icons.route),
+                          _MiniInfo(
+                            label: 'Distance',
+                            value: '5.2 km',
+                            icon: Icons.route,
+                          ),
                           const SizedBox(width: 12),
-                          _MiniInfo(label: 'Fare', value: 'Rs. 588', icon: Icons.payments),
+                          _MiniInfo(
+                            label: 'Fare',
+                            value: 'Rs. 588',
+                            icon: Icons.payments,
+                          ),
                         ],
                       ),
                       const SizedBox(height: 16),
@@ -190,16 +232,19 @@ class _LiveTrackingScreenState extends State<LiveTrackingScreen> {
 }
 
 class _CircleBtn extends StatelessWidget {
-  final IconData icon; final VoidCallback onTap;
+  final IconData icon;
+  final VoidCallback onTap;
   const _CircleBtn({required this.icon, required this.onTap});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 42, height: 42,
+        width: 42,
+        height: 42,
         decoration: BoxDecoration(
-          color: AppColors.primary.withOpacity(0.15), shape: BoxShape.circle,
+          color: AppColors.primary.withOpacity(0.15),
+          shape: BoxShape.circle,
         ),
         child: Icon(icon, color: AppColors.primary, size: 20),
       ),
@@ -208,14 +253,24 @@ class _CircleBtn extends StatelessWidget {
 }
 
 class _MiniInfo extends StatelessWidget {
-  final String label; final String value; final IconData icon;
-  const _MiniInfo({required this.label, required this.value, required this.icon});
+  final String label;
+  final String value;
+  final IconData icon;
+  const _MiniInfo({
+    required this.label,
+    required this.value,
+    required this.icon,
+  });
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(color: AppColors.darkCard, borderRadius: BorderRadius.circular(10), border: Border.all(color: AppColors.darkBorder)),
+        decoration: BoxDecoration(
+          color: AppColors.darkCard,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.darkBorder),
+        ),
         child: Column(
           children: [
             Icon(icon, size: 16, color: AppColors.primary),

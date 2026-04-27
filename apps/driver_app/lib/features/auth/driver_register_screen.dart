@@ -11,6 +11,57 @@ class DriverRegisterScreen extends StatefulWidget {
 class _DriverRegisterScreenState extends State<DriverRegisterScreen> {
   int _step = 0;
   bool _isLoading = false;
+  String? _error;
+
+  // Step 0 — Personal Info
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  // Step 1 — Vehicle Details
+  final _vehicleMakeController = TextEditingController();
+  final _vehicleModelController = TextEditingController();
+  final _licensePlateController = TextEditingController();
+  final _yearController = TextEditingController();
+  final _colorController = TextEditingController();
+
+  Future<void> _submitRegistration() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    try {
+      await AuthApiService().register({
+        'full_name': _nameController.text.trim(),
+        'email': _emailController.text.trim(),
+        'phone': _phoneController.text.trim(),
+        'password': _passwordController.text,
+        'role': 'driver',
+      });
+      if (mounted) context.go('/dashboard');
+    } catch (e) {
+      if (mounted) {
+        setState(() => _error = e.toString().replaceFirst('Exception: ', ''));
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _passwordController.dispose();
+    _vehicleMakeController.dispose();
+    _vehicleModelController.dispose();
+    _licensePlateController.dispose();
+    _yearController.dispose();
+    _colorController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,28 +91,47 @@ class _DriverRegisterScreenState extends State<DriverRegisterScreen> {
             ),
             const SizedBox(height: 32),
 
+            if (_error != null) ...[
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.15),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.red.withOpacity(0.3)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.error_outline, color: Colors.redAccent, size: 20),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(_error!, style: AppTextStyles.bodySmall.copyWith(color: Colors.redAccent))),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+
             if (_step == 0) ...[
               Text('Personal Info', style: AppTextStyles.heading3),
               const SizedBox(height: 20),
-              const RentRideTextField(label: 'Full Name', hint: 'Enter your name', prefixIcon: Icons.person_outlined),
+              RentRideTextField(label: 'Full Name', hint: 'Enter your name', prefixIcon: Icons.person_outlined, controller: _nameController),
               const SizedBox(height: 16),
-              const RentRideTextField(label: 'Email', hint: 'Enter your email', prefixIcon: Icons.email_outlined, keyboardType: TextInputType.emailAddress),
+              RentRideTextField(label: 'Email', hint: 'Enter your email', prefixIcon: Icons.email_outlined, keyboardType: TextInputType.emailAddress, controller: _emailController),
               const SizedBox(height: 16),
-              const RentRideTextField(label: 'Phone', hint: '+94 7X XXX XXXX', prefixIcon: Icons.phone_outlined, keyboardType: TextInputType.phone),
+              RentRideTextField(label: 'Phone', hint: '+94 7X XXX XXXX', prefixIcon: Icons.phone_outlined, keyboardType: TextInputType.phone, controller: _phoneController),
               const SizedBox(height: 16),
-              const RentRideTextField(label: 'Password', hint: 'Create a password', prefixIcon: Icons.lock_outlined, obscureText: true),
+              RentRideTextField(label: 'Password', hint: 'Create a password', prefixIcon: Icons.lock_outlined, obscureText: true, controller: _passwordController),
             ] else if (_step == 1) ...[
               Text('Vehicle Details', style: AppTextStyles.heading3),
               const SizedBox(height: 20),
-              const RentRideTextField(label: 'Vehicle Make', hint: 'e.g. Toyota', prefixIcon: Icons.directions_car),
+              RentRideTextField(label: 'Vehicle Make', hint: 'e.g. Toyota', prefixIcon: Icons.directions_car, controller: _vehicleMakeController),
               const SizedBox(height: 16),
-              const RentRideTextField(label: 'Vehicle Model', hint: 'e.g. Prius', prefixIcon: Icons.car_repair),
+              RentRideTextField(label: 'Vehicle Model', hint: 'e.g. Prius', prefixIcon: Icons.car_repair, controller: _vehicleModelController),
               const SizedBox(height: 16),
-              const RentRideTextField(label: 'License Plate', hint: 'e.g. CAB-1234', prefixIcon: Icons.confirmation_number),
+              RentRideTextField(label: 'License Plate', hint: 'e.g. CAB-1234', prefixIcon: Icons.confirmation_number, controller: _licensePlateController),
               const SizedBox(height: 16),
-              const RentRideTextField(label: 'Year', hint: 'e.g. 2022', prefixIcon: Icons.calendar_today, keyboardType: TextInputType.number),
+              RentRideTextField(label: 'Year', hint: 'e.g. 2022', prefixIcon: Icons.calendar_today, keyboardType: TextInputType.number, controller: _yearController),
               const SizedBox(height: 16),
-              const RentRideTextField(label: 'Color', hint: 'e.g. White', prefixIcon: Icons.palette),
+              RentRideTextField(label: 'Color', hint: 'e.g. White', prefixIcon: Icons.palette, controller: _colorController),
             ] else ...[
               Text('Upload Documents', style: AppTextStyles.heading3),
               const SizedBox(height: 20),
@@ -80,10 +150,7 @@ class _DriverRegisterScreenState extends State<DriverRegisterScreen> {
                 if (_step < 2) {
                   setState(() => _step++);
                 } else {
-                  setState(() => _isLoading = true);
-                  Future.delayed(const Duration(seconds: 2), () {
-                    if (mounted) { setState(() => _isLoading = false); context.go('/dashboard'); }
-                  });
+                  _submitRegistration();
                 }
               },
             ),

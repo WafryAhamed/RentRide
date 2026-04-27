@@ -19,13 +19,15 @@ class _SearchingDriverScreenState extends State<SearchingDriverScreen>
   void initState() {
     super.initState();
     _pulseController = AnimationController(
-      vsync: this, duration: const Duration(milliseconds: 1500),
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
     )..repeat(reverse: true);
     _pulseAnimation = Tween<double>(begin: 0.8, end: 1.2).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
     _rotateController = AnimationController(
-      vsync: this, duration: const Duration(seconds: 3),
+      vsync: this,
+      duration: const Duration(seconds: 3),
     )..repeat();
 
     // Simulate finding a driver after 4 seconds
@@ -86,7 +88,10 @@ class _SearchingDriverScreenState extends State<SearchingDriverScreen>
                               height: 110,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(color: Colors.transparent, width: 3),
+                                border: Border.all(
+                                  color: Colors.transparent,
+                                  width: 3,
+                                ),
                                 gradient: SweepGradient(
                                   colors: [
                                     AppColors.primary.withOpacity(0),
@@ -115,7 +120,11 @@ class _SearchingDriverScreenState extends State<SearchingDriverScreen>
                           ],
                         ),
                         child: const Center(
-                          child: Text('🚗', style: TextStyle(fontSize: 36)),
+                          child: Icon(
+                            Icons.directions_car_filled,
+                            size: 36,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ],

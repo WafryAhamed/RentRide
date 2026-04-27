@@ -23,6 +23,9 @@ func RegisterRoutes(router *gin.Engine) {
 			users.GET("/:id", userCtrl.GetUserByID)    // Get user by ID
 			users.PUT("/:id", userCtrl.UpdateUser)     // Update user
 			users.DELETE("/:id", userCtrl.DeleteUser)  // Delete user
+
+			// Authenticated profile endpoint
+			users.GET("/profile", middleware.AuthRequired(), userCtrl.GetProfile)
 		}
 
 		admin := v1.Group("/admin")

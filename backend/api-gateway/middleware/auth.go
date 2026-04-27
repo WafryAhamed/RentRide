@@ -20,6 +20,12 @@ var PublicPaths = []string{
 // AuthMiddleware validates JWT tokens at the gateway level
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		// Skip CORS preflight
+		if c.Request.Method == "OPTIONS" {
+			c.Next()
+			return
+		}
+
 		// Skip auth for public paths
 		path := c.Request.URL.Path
 		for _, publicPath := range PublicPaths {

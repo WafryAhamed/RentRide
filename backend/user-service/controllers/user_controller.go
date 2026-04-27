@@ -204,3 +204,45 @@ func (ctrl *UserController) DeleteUser(c *gin.Context) {
 		"message": "User deleted successfully",
 	})
 }
+
+// GetProfile returns the user profile of the currently authenticated user
+func (ctrl *UserController) GetProfile(c *gin.Context) {
+	// user_id is injected by the AuthRequired middleware from JWT claims
+	userIDVal, exists := c.Get("user_id")
+	if !exists {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"success": false,
+			"error":   "User ID not found in token",
+		})
+		return
+	}
+
+	// JWT claims store numbers as float64
+	var userID uint
+	switch v := userIDVal.(type) {
+	case float64:
+		userID = uint(v)
+	case uint:
+		userID = v
+	default:
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"success": false,
+			"error":   "Invalid user ID format in token",
+		})
+		return
+	}
+
+	user, err := ctrl.service.GetUserByID(userID)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"success": false,
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"data":    user,
+	})
+}

@@ -10,11 +10,17 @@ class ReceiptScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.darkBg,
       appBar: AppBar(
-        leading: IconButton(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back_ios, size: 20)),
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back_ios, size: 20),
+        ),
         title: const Text('Receipt'),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.share, size: 20)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.download, size: 20)),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.download, size: 20),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -25,13 +31,18 @@ class ReceiptScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppColors.darkCard, borderRadius: BorderRadius.circular(20),
+                color: AppColors.darkCard,
+                borderRadius: BorderRadius.circular(20),
                 border: Border.all(color: AppColors.darkBorder),
               ),
               child: Column(
                 children: [
                   // Logo
-                  const Text('🚗', style: TextStyle(fontSize: 36)),
+                  const Icon(
+                    Icons.directions_car_filled,
+                    size: 36,
+                    color: AppColors.primary,
+                  ),
                   const SizedBox(height: 8),
                   Text('RentRide', style: AppTextStyles.heading3),
                   Text('Trip Receipt', style: AppTextStyles.bodySmall),
@@ -91,7 +102,8 @@ class ReceiptScreen extends StatelessWidget {
 }
 
 class _ReceiptRow extends StatelessWidget {
-  final String label; final String value;
+  final String label;
+  final String value;
   const _ReceiptRow(this.label, this.value);
   @override
   Widget build(BuildContext context) {
@@ -103,7 +115,15 @@ class _ReceiptRow extends StatelessWidget {
         children: [
           Text(label, style: AppTextStyles.bodySmall),
           const SizedBox(width: 16),
-          Flexible(child: Text(value, style: AppTextStyles.labelMedium.copyWith(color: AppColors.textPrimary), textAlign: TextAlign.end)),
+          Flexible(
+            child: Text(
+              value,
+              style: AppTextStyles.labelMedium.copyWith(
+                color: AppColors.textPrimary,
+              ),
+              textAlign: TextAlign.end,
+            ),
+          ),
         ],
       ),
     );

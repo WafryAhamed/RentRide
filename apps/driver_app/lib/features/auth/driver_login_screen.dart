@@ -13,11 +13,26 @@ class _DriverLoginScreenState extends State<DriverLoginScreen> {
   final _passwordController = TextEditingController(text: 'password');
   bool _obscure = true;
   bool _isLoading = false;
+  String? _error;
 
   Future<void> _login() async {
-    setState(() => _isLoading = true);
-    await Future.delayed(const Duration(seconds: 2));
-    if (mounted) { setState(() => _isLoading = false); context.go('/dashboard'); }
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+    try {
+      await AuthApiService().login(
+        _emailController.text.trim(),
+        _passwordController.text,
+      );
+      if (mounted) context.go('/dashboard');
+    } catch (e) {
+      if (mounted) {
+        setState(() => _error = e.toString().replaceFirst('Exception: ', ''));
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -44,6 +59,24 @@ class _DriverLoginScreenState extends State<DriverLoginScreen> {
                 const SizedBox(height: 8),
                 Text('Sign in to start earning', style: AppTextStyles.bodyMedium),
                 const SizedBox(height: 40),
+                if (_error != null) ...[
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.red.withOpacity(0.3)),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.error_outline, color: Colors.redAccent, size: 20),
+                        const SizedBox(width: 8),
+                        Expanded(child: Text(_error!, style: AppTextStyles.bodySmall.copyWith(color: Colors.redAccent))),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                ],
                 RentRideTextField(label: 'Email', hint: 'Enter your email', controller: _emailController, prefixIcon: Icons.email_outlined, keyboardType: TextInputType.emailAddress),
                 const SizedBox(height: 20),
                 RentRideTextField(

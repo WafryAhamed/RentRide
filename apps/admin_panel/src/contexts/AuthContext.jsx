@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import api from '../api/axios';
 
 const AuthContext = createContext();
@@ -47,7 +47,8 @@ export const AuthProvider = ({ children }) => {
     
     // Quick decode to check role *before* accepting login
     const decoded = jwtDecode(access_token);
-    if (decoded.role !== "ADMIN") {
+    const userRole = (decoded.role || '').toUpperCase();
+    if (userRole !== "ADMIN") {
       throw new Error("Insufficient permissions. Admins only.");
     }
 

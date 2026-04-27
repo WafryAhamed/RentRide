@@ -23,10 +23,16 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(milliseconds: 1500),
     );
     _fadeIn = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: const Interval(0, 0.6, curve: Curves.easeOut)),
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0, 0.6, curve: Curves.easeOut),
+      ),
     );
     _scale = Tween<double>(begin: 0.5, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: const Interval(0, 0.6, curve: Curves.elasticOut)),
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0, 0.6, curve: Curves.elasticOut),
+      ),
     );
     _controller.forward();
 
@@ -72,7 +78,11 @@ class _SplashScreenState extends State<SplashScreen>
                           ],
                         ),
                         child: const Center(
-                          child: Text('🚗', style: TextStyle(fontSize: 48)),
+                          child: Icon(
+                            Icons.directions_car_filled,
+                            size: 48,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),

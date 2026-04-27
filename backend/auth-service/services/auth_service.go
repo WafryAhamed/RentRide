@@ -18,7 +18,7 @@ func NewAuthService() *AuthService {
 }
 
 // Register registers a new user (hashes password and stores in DB)
-func (s *AuthService) Register(req models.RegisterRequest) (*models.TokenResponse, error) {
+func (s *AuthService) Register(req models.RegisterRequest) (*models.AuthResponse, error) {
 	existingUser, _ := s.repo.FindUserByEmail(req.Email)
 	if existingUser != nil {
 		return nil, errors.New("user with this email already exists")
@@ -48,11 +48,11 @@ func (s *AuthService) Register(req models.RegisterRequest) (*models.TokenRespons
 	}
 
 	// Generating tokens immediately after register
-	return s.generateTokens(newUser.ID, newUser.Email, newUser.Role)
+	return s.generateAuthResponse(newUser)
 }
 
 // Login authenticates a user and returns tokens
-func (s *AuthService) Login(req models.LoginRequest) (*models.TokenResponse, error) {
+func (s *AuthService) Login(req models.LoginRequest) (*models.AuthResponse, error) {
 	user, err := s.repo.FindUserByEmail(req.Email)
 	if err != nil {
 		return nil, errors.New("invalid email or password")
@@ -66,11 +66,11 @@ func (s *AuthService) Login(req models.LoginRequest) (*models.TokenResponse, err
 		return nil, errors.New("account is disabled")
 	}
 
-	return s.generateTokens(user.ID, user.Email, user.Role)
+	return s.generateAuthResponse(user)
 }
 
 // Refresh generates new tokens if the provided refresh token is still valid
-func (s *AuthService) Refresh(req models.RefreshRequest) (*models.TokenResponse, error) {
+func (s *AuthService) Refresh(req models.RefreshRequest) (*models.AuthResponse, error) {
 	// First check DB if token is valid and not expired globally
 	_, err := s.repo.ValidateRefreshToken(req.RefreshToken)
 	if err != nil {
@@ -95,29 +95,30 @@ func (s *AuthService) Refresh(req models.RefreshRequest) (*models.TokenResponse,
 	_ = s.repo.DeleteRefreshToken(req.RefreshToken)
 
 	// Issue new tokens
-	return s.generateTokens(user.ID, user.Email, user.Role)
+	return s.generateAuthResponse(user)
 }
 
-func (s *AuthService) generateTokens(userID uint, email, role string) (*models.TokenResponse, error) {
-	accessToken, limitSeconds, err := utils.GenerateAccessToken(userID, email, role)
+func (s *AuthService) generateAuthResponse(user *models.User) (*models.AuthResponse, error) {
+	accessToken, limitSeconds, err := utils.GenerateAccessToken(user.ID, user.Email, user.Role)
 	if err != nil {
 		return nil, errors.New("failed to generate access token")
 	}
 
-	refreshToken, expiryDate, err := utils.GenerateRefreshToken(userID)
+	refreshToken, expiryDate, err := utils.GenerateRefreshToken(user.ID)
 	if err != nil {
 		return nil, errors.New("failed to generate refresh token")
 	}
 
-	err = s.repo.StoreRefreshToken(userID, refreshToken, expiryDate)
+	err = s.repo.StoreRefreshToken(user.ID, refreshToken, expiryDate)
 	if err != nil {
 		return nil, errors.New("failed to register device for session")
 	}
 
-	return &models.TokenResponse{
+	return &models.AuthResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		TokenType:    "Bearer",
 		ExpiresIn:    limitSeconds,
+		User:         user.ToSafe(),
 	}, nil
 }

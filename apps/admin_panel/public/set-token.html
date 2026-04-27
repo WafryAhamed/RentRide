@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Set Token</title>
+  </head>
+  <body>
+    <script>
+      // This page sets the 'token' in localStorage then redirects to the app root.
+      (function(){
+        try {
+          // Token can be provided via the token query parameter or injected below.
+          const params = new URLSearchParams(window.location.search);
+          const token = params.get('t') || 'REPLACE_TOKEN_HERE';
+          if (!token || token === 'REPLACE_TOKEN_HERE') {
+            document.body.innerText = 'No token provided. Use ?t=<token> in the URL.';
+            return;
+          }
+          localStorage.setItem('token', token);
+          // small delay then redirect to app
+          setTimeout(()=>{ window.location.replace('/'); }, 500);
+        } catch (e) {
+          document.body.innerText = 'Error setting token: ' + e;
+        }
+      })();
+    </script>
+  </body>
+</html>

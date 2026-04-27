@@ -1,14 +1,14 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, Car, CreditCard, LogOut, Navigation } from 'lucide-react';
+import { FaGaugeHigh, FaUsers, FaCarSide, FaCreditCard, FaRightFromBracket, FaLocationArrow } from 'react-icons/fa6';
 import { useAuth } from '../contexts/AuthContext';
 
 const SIDEBAR_ITEMS = [
-  { path: '/', label: 'Overview', icon: LayoutDashboard },
-  { path: '/users', label: 'Users', icon: Users },
-  { path: '/vehicles', label: 'Vehicles', icon: Car },
-  { path: '/payments', label: 'Payments', icon: CreditCard },
-  { path: '/rides', label: 'Rides', icon: Navigation },
+  { path: '/', label: 'Overview', icon: FaGaugeHigh },
+  { path: '/users', label: 'Users', icon: FaUsers },
+  { path: '/vehicles', label: 'Vehicles', icon: FaCarSide },
+  { path: '/payments', label: 'Payments', icon: FaCreditCard },
+  { path: '/rides', label: 'Rides', icon: FaLocationArrow },
 ];
 
 const Layout = () => {
@@ -49,7 +49,7 @@ const Layout = () => {
             onClick={logout}
             className="flex items-center gap-3 px-4 py-3 w-full text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition-all"
           >
-            <LogOut size={20} />
+            <FaRightFromBracket size={20} />
             <span className="font-medium">Logout</span>
           </button>
         </div>

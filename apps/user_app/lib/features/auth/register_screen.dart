@@ -17,6 +17,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _obscure = true;
   bool _isLoading = false;
   bool _agreeTerms = false;
+  String? _error;
 
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
@@ -26,15 +27,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
       return;
     }
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
     try {
       await AuthApiService().register({
-        'name': _nameController.text,
-        'email': _emailController.text,
-        'phone': _phoneController.text,
+        'full_name': _nameController.text.trim(),
+        'email': _emailController.text.trim(),
+        'phone': _phoneController.text.trim(),
         'password': _passwordController.text,
+        'role': 'rider',
       });
-      if (mounted) context.push('/otp', extra: _phoneController.text);
+      if (mounted) context.go('/home');
+    } catch (e) {
+      if (mounted) {
+        setState(() => _error = e.toString().replaceFirst('Exception: ', ''));
+      }
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -69,7 +78,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Text('Create Account', style: AppTextStyles.heading1),
                   const SizedBox(height: 8),
                   Text('Join RentRide and start your journey', style: AppTextStyles.bodyMedium),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
+
+                  // Error display
+                  if (_error != null) ...[
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.red.withOpacity(0.3)),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.error_outline, color: Colors.redAccent, size: 20),
+                          const SizedBox(width: 8),
+                          Expanded(child: Text(_error!, style: AppTextStyles.bodySmall.copyWith(color: Colors.redAccent))),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
 
                   RentRideTextField(label: 'Full Name', hint: 'Enter your name', controller: _nameController, prefixIcon: Icons.person_outlined, validator: Validators.name),
                   const SizedBox(height: 16),

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Car, Lock, Mail, Loader2, AlertCircle } from 'lucide-react';
+import { FaCarSide, FaLock, FaEnvelope, FaSpinner, FaCircleExclamation } from 'react-icons/fa6';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   // Redirect if already logged in
-  if (user && user.role === "ADMIN") {
+  if (user && (user.role || '').toUpperCase() === "ADMIN") {
     return <Navigate to="/" replace />;
   }
 
@@ -40,7 +40,7 @@ const LoginPage = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center mb-6">
           <div className="bg-primary/20 p-4 rounded-3xl border border-primary/30 shadow-lg shadow-primary/10">
-            <Car size={48} className="text-primary" />
+            <FaCarSide size={48} className="text-primary" />
           </div>
         </div>
         <h2 className="text-center text-3xl font-bold tracking-tight text-white mb-2">
@@ -56,7 +56,7 @@ const LoginPage = () => {
           
           {error && (
             <div className="mb-6 bg-red-500/10 border border-red-500/50 p-4 rounded-xl flex items-start gap-3">
-              <AlertCircle size={20} className="text-red-400 mt-0.5" />
+              <FaCircleExclamation size={20} className="text-red-400 mt-0.5" />
               <p className="text-red-200 text-sm">{error}</p>
             </div>
           )}
@@ -68,7 +68,7 @@ const LoginPage = () => {
               </label>
               <div className="mt-2 relative rounded-xl shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-500" />
+                  <FaEnvelope className="h-5 w-5 text-gray-500" />
                 </div>
                 <input
                   type="email"
@@ -87,7 +87,7 @@ const LoginPage = () => {
               </label>
               <div className="mt-2 relative rounded-xl shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-500" />
+                  <FaLock className="h-5 w-5 text-gray-500" />
                 </div>
                 <input
                   type="password"
@@ -95,7 +95,7 @@ const LoginPage = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="block w-full pl-11 bg-dark/50 border border-dark-border rounded-xl py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-all sm:text-sm"
-                  placeholder="••••••••"
+                  placeholder="********"
                 />
               </div>
             </div>
@@ -107,7 +107,7 @@ const LoginPage = () => {
                 className="w-full flex justify-center py-3 px-4 rounded-xl text-sm font-bold text-dark bg-primary hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-primary/20"
               >
                 {loading ? (
-                  <Loader2 className="animate-spin h-5 w-5 text-dark" />
+                  <FaSpinner className="animate-spin h-5 w-5 text-dark" />
                 ) : (
                   'Secure Login'
                 )}

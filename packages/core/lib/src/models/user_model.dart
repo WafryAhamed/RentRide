@@ -28,11 +28,23 @@ class UserModel extends Equatable {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    UserRole parsedRole = UserRole.rider;
+    final roleStr = json['role']?.toString().toLowerCase() ?? 'rider';
+    if (roleStr == 'driver') {
+      parsedRole = UserRole.driver;
+    } else if (roleStr == 'admin') {
+      parsedRole = UserRole.admin;
+    }
+
     return UserModel(
       id: json['id']?.toString() ?? '',
-      name: json['name'] ?? '',
+      name: json['full_name'] ?? json['name'] ?? '',
       email: json['email'] ?? '',
       phone: json['phone'] ?? '',
+      avatarUrl: json['avatar_url'],
+      role: parsedRole,
+      rating: (json['rating'] as num?)?.toDouble() ?? 5.0,
+      totalRides: json['total_rides'] as int? ?? 0,
       createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at'].toString()) ?? DateTime.now() : DateTime.now(),
     );
   }

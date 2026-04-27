@@ -14,7 +14,7 @@ const ProtectedRoute = () => {
   }
 
   // Redirect if not logged in or not an ADMIN
-  if (!user || user.role !== "ADMIN") {
+  if (!user || (user.role || '').toUpperCase() !== "ADMIN") {
     return <Navigate to="/login" replace />;
   }
 

@@ -61,6 +61,37 @@ type TokenResponse struct {
 	ExpiresIn    int64  `json:"expires_in"` // seconds
 }
 
+// AuthResponse wraps tokens + user profile for frontend consumption
+type AuthResponse struct {
+	AccessToken  string       `json:"access_token"`
+	RefreshToken string       `json:"refresh_token"`
+	TokenType    string       `json:"token_type"`
+	ExpiresIn    int64        `json:"expires_in"`
+	User         UserSafe     `json:"user"`
+}
+
+// UserSafe is User without sensitive fields, sent to the frontend
+type UserSafe struct {
+	ID        uint   `json:"id"`
+	FullName  string `json:"full_name"`
+	Email     string `json:"email"`
+	Phone     string `json:"phone"`
+	Role      string `json:"role"`
+	IsActive  bool   `json:"is_active"`
+}
+
+// ToSafe converts a User to a safe representation
+func (u *User) ToSafe() UserSafe {
+	return UserSafe{
+		ID:       u.ID,
+		FullName: u.FullName,
+		Email:    u.Email,
+		Phone:    u.Phone,
+		Role:     u.Role,
+		IsActive: u.IsActive,
+	}
+}
+
 // RefreshRequest is the payload expected for refreshing tokens
 type RefreshRequest struct {
 	RefreshToken string `json:"refresh_token" binding:"required"`

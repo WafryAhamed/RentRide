@@ -15,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController(text: 'password');
   bool _obscurePassword = true;
   bool _isLoading = false;
+  String? _error;
 
   @override
   void dispose() {
@@ -25,13 +26,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
     try {
       await AuthApiService().login(
-        _emailController.text,
+        _emailController.text.trim(),
         _passwordController.text,
       );
       if (mounted) context.go('/home');
+    } catch (e) {
+      if (mounted) {
+        setState(() => _error = e.toString().replaceFirst('Exception: ', ''));
+      }
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -60,7 +68,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: const Center(
-                      child: Text('🚗', style: TextStyle(fontSize: 32)),
+                      child: Icon(
+                        Icons.directions_car_filled,
+                        size: 32,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 32),
@@ -71,7 +83,38 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Sign in to continue your journey',
                     style: AppTextStyles.bodyMedium,
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 24),
+
+                  // Error display
+                  if (_error != null) ...[
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.red.withOpacity(0.3)),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.error_outline,
+                            color: Colors.redAccent,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              _error!,
+                              style: AppTextStyles.bodySmall.copyWith(
+                                color: Colors.redAccent,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
 
                   // Email
                   RentRideTextField(
@@ -94,11 +137,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     validator: Validators.password,
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                         color: AppColors.textMuted,
                         size: 20,
                       ),
-                      onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                      onPressed: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
                     ),
                   ),
 
@@ -109,7 +155,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () => context.push('/forgot-password'),
                       child: Text(
                         'Forgot Password?',
-                        style: AppTextStyles.bodySmall.copyWith(color: AppColors.primary),
+                        style: AppTextStyles.bodySmall.copyWith(
+                          color: AppColors.primary,
+                        ),
                       ),
                     ),
                   ),
@@ -129,12 +177,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Divider
                   Row(
                     children: [
-                      const Expanded(child: Divider(color: AppColors.darkBorder)),
+                      const Expanded(
+                        child: Divider(color: AppColors.darkBorder),
+                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text('or', style: AppTextStyles.bodySmall),
                       ),
-                      const Expanded(child: Divider(color: AppColors.darkBorder)),
+                      const Expanded(
+                        child: Divider(color: AppColors.darkBorder),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 24),
@@ -144,7 +196,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Expanded(
                         child: _SocialButton(
-                          icon: '🔵',
+                          icon: Icons.g_mobiledata,
                           label: 'Google',
                           onTap: () {},
                         ),
@@ -152,8 +204,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(width: 16),
                       Expanded(
                         child: _SocialButton(
-                          icon: '📘',
-                          label: 'Facebook',
+                          icon: Icons.apple,
+                          label: 'Apple',
                           onTap: () {},
                         ),
                       ),
@@ -167,12 +219,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Don't have an account? ", style: AppTextStyles.bodyMedium),
+                        Text(
+                          "Don't have an account? ",
+                          style: AppTextStyles.bodyMedium,
+                        ),
                         GestureDetector(
                           onTap: () => context.push('/register'),
                           child: Text(
                             'Sign Up',
-                            style: AppTextStyles.labelLarge.copyWith(color: AppColors.primary),
+                            style: AppTextStyles.labelLarge.copyWith(
+                              color: AppColors.primary,
+                            ),
                           ),
                         ),
                       ],
@@ -189,11 +246,15 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class _SocialButton extends StatelessWidget {
-  final String icon;
+  final IconData icon;
   final String label;
   final VoidCallback onTap;
 
-  const _SocialButton({required this.icon, required this.label, required this.onTap});
+  const _SocialButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +270,7 @@ class _SocialButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(icon, style: const TextStyle(fontSize: 20)),
+            Icon(icon, size: 20, color: AppColors.textPrimary),
             const SizedBox(width: 8),
             Text(label, style: AppTextStyles.labelLarge),
           ],
