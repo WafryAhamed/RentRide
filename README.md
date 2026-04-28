@@ -8,11 +8,6 @@
   Microservices-based ride-hailing and vehicle rental platform.
 </p>
 
-<p align="center">
-  <a href="https://github.com/WafryAhamed/RentRide"><img src="https://img.shields.io/github/stars/WafryAhamed/RentRide?style=for-the-badge" alt="Stars"/></a>
-  <a href="https://github.com/WafryAhamed/RentRide/network/members"><img src="https://img.shields.io/github/forks/WafryAhamed/RentRide?style=for-the-badge" alt="Forks"/></a>
-  <a href="https://github.com/WafryAhamed/RentRide/issues"><img src="https://img.shields.io/github/issues/WafryAhamed/RentRide?style=for-the-badge" alt="Issues"/></a>
-</p>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/marwin1991/profile-technology-icons/refs/heads/main/icons/go.png" alt="Go" width="28"/>
@@ -24,6 +19,7 @@
 </p>
 
 ---
+<img width="1672" height="941" alt="ChatGPT Image Apr 28, 2026, 05_35_52 AM" src="https://github.com/user-attachments/assets/7bd70817-735f-4d4c-842f-198d8817e710" />
 
 ## 🚀 Overview
 
@@ -75,6 +71,8 @@ Default ports below are taken from each service `cmd/main.go` fallback when `POR
 | Payment Service | 8085 |
 | Notification Service | 8086 |
 | Travel Guide Service | 8087 |
+
+<img width="1672" height="941" alt="89d1f912-a5c7-4342-8030-48ed15bb0b59" src="https://github.com/user-attachments/assets/e923175e-c133-4f45-8559-c91f0b6e984f" />
 
 ## 🛠️ Tech Stack (from project files)
 
@@ -151,11 +149,29 @@ This allows entering the admin UI without depending on full backend availability
 
 ## 📸 Demo / Screenshots
 
-The repo currently includes only this logo asset in `docs/assets/`:
+<table align="center">
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/f782773f-6674-4710-9652-1c6c3c31a89f" width="200"/></td>
+    <td><img src="https://github.com/user-attachments/assets/246322ab-9259-4104-8302-e5951c14ac0a" width="200"/></td>
+    <td><img src="https://github.com/user-attachments/assets/17d44b34-64a3-488f-937e-c1705f5b4875" width="200"/></td>
+    <td><img src="https://github.com/user-attachments/assets/7e755e2a-eeff-4c38-a32b-4bc045bfd88a" width="200"/></td>
+  </tr>
 
-- `docs/assets/silcon.svg`
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/55e6aeb5-6fe7-4001-8bc6-ce2c1bae9dee" width="200"/></td>
+    <td><img src="https://github.com/user-attachments/assets/895c006c-706b-4069-96cd-c3d69562e7ad" width="200"/></td>
+    <td><img src="https://github.com/user-attachments/assets/03dc76cb-627b-4bdb-8267-9664b759a64a" width="200"/></td>
+    <td><img src="https://github.com/user-attachments/assets/7f1b95f0-27f1-4de5-a259-24f928b39d08" width="200"/></td>
+  </tr>
 
-If you want screenshot gallery images in README, add files under `docs/assets/screenshots/` and reference them here.
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/84a5ebb0-5505-42bc-8003-0c5d9341fffd" width="200"/></td>
+    <td><img src="https://github.com/user-attachments/assets/a676eff4-1c3d-4953-96ba-095f23a64eac" width="200"/></td>
+    <td><img src="https://github.com/user-attachments/assets/eb858d75-da2e-4d39-bed8-db619f1801ea" width="200"/></td>
+    <td><img src="https://github.com/user-attachments/assets/af6a294a-6c58-46ec-9cb2-ee3f2e7bffc7" width="200"/></td>
+  </tr>
+</table>
+
 
 ## 🧪 Testing
 
