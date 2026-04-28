@@ -31,30 +31,6 @@ This repository is a monorepo containing:
 - Shared Flutter package under `packages/core`
 - Backend API specification at `backend/docs/openapi.yaml`
 
-## 📁 Repository Structure (verified)
-
-```text
-apps/
-  admin_panel/
-  user_app/
-  driver_app/
-backend/
-  api-gateway/
-  auth-service/
-  user-service/
-  booking-service/
-  location-service/
-  vehicle-service/
-  payment-service/
-  notification-service/
-  travel-guide-service/
-  core/
-  docs/openapi.yaml
-packages/
-  core/
-scripts/
-  setup_db.go
-```
 
 ## 🧩 Backend Services (default ports from source)
 
